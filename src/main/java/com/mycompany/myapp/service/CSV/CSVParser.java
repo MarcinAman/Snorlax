@@ -11,7 +11,6 @@ import io.vavr.collection.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.io.*;
 
@@ -19,12 +18,20 @@ import java.io.*;
 public class CSVParser implements FileParser{
     private static final Logger logger = LoggerFactory.getLogger(CSVParser.class);
 
-    private static List<ParsingContainer> loadObjectList(InputStream file) {
+    public List<Pool> read(InputStream file, List<String> poolIdInDatabase) {
+        List<ParsingContainerDTO> objects = loadObjectList(file);
+        if (verify(objects, poolIdInDatabase)) {
+            return objects.map(ParsingContainerDTO::toEmptyPool);
+        }
+        return List.empty();
+    }
+
+    private static List<ParsingContainerDTO> loadObjectList(InputStream file) {
         try {
             CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader();
             Reader reader = new InputStreamReader(file);
             CsvMapper mapper = new CsvMapper();
-            MappingIterator<ParsingContainer> it = mapper.readerFor(ParsingContainer.class).with(bootstrapSchema)
+            MappingIterator<ParsingContainerDTO> it = mapper.readerFor(ParsingContainerDTO.class).with(bootstrapSchema)
                 .readValues(reader);
             return List.ofAll(it.readAll());
         } catch (Exception e) {
@@ -33,18 +40,10 @@ public class CSVParser implements FileParser{
         return List.empty();
     }
 
-    private static Boolean verify(List<ParsingContainer> parsedObjs, List<String> poolIdInDatabase) {
-        Map<String, ParsingContainer> objects =
-            parsedObjs.toLinkedMap(parsingContainer -> Tuple.of(parsingContainer.getPoolId(), parsingContainer));
+    private static Boolean verify(List<ParsingContainerDTO> parsedObjs, List<String> poolIdInDatabase) {
+        Map<String, ParsingContainerDTO> objects =
+            parsedObjs.toLinkedMap(parsingContainerDTO -> Tuple.of(parsingContainerDTO.getPoolId(), parsingContainerDTO));
         return poolIdInDatabase
             .forAll(poolId -> !objects.containsKey(poolId));
-    }
-
-    public List<Pool> read(InputStream file, List<String> poolIdInDatabase) {
-        List<ParsingContainer> objects = loadObjectList(file);
-        if (verify(objects, poolIdInDatabase)) {
-            return objects.map(ParsingContainer::toEmptyPool);
-        }
-        return List.empty();
     }
 }

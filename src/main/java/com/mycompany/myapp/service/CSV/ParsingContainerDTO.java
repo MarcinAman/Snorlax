@@ -4,18 +4,13 @@ import com.mycompany.myapp.domain.Pool;
 
 import java.util.LinkedList;
 
-public class ParsingContainer {
+public class ParsingContainerDTO {
     private String poolId;
     private String displayName;
     private Integer maximumCount;
     private Boolean enabled;
     private String description;
 
-    public ParsingContainer() {
-
-    }
-
-    //    ugly but CSV file format is that ugly
     public void setPool_id(String pool_id) {
         this.poolId = pool_id;
     }
@@ -38,11 +33,6 @@ public class ParsingContainer {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    //    ugly but CSV file format is that ugly
-    public String getPool_id() {
-        return poolId;
     }
 
     public String getPoolId() {
