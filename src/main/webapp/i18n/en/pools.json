@@ -1,0 +1,13 @@
+{
+    "pools": {
+        "list": {
+            "title": "PCoIP pools",
+            "headers": {
+                "name": "Name",
+                "size": "Size",
+                "enabled": "Enabled",
+                "tools": "Tools"
+            }
+        }
+    }
+}

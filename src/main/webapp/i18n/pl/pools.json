@@ -1,0 +1,13 @@
+{
+    "pools": {
+        "list": {
+            "title": "Pule PCoIP",
+            "headers": {
+                "name": "Nazwa",
+                "size": "Rozmiar",
+                "enabled": "Włączone",
+                "tools": "Narzędzia"
+            }
+        }
+    }
+}
