@@ -6,8 +6,17 @@
                 "name": "Name",
                 "size": "Size",
                 "enabled": "Enabled",
-                "tools": "Tools"
+                "tools": "Tools",
+                "book": "Book"
             }
+        },
+        "booking": {
+            "title": "Book a pool",
+            "fields": {
+                "id": "ID",
+                "count": "Count"
+            },
+            "minvalue": "Value should be greater than 0"
         }
     }
 }
