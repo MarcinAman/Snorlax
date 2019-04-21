@@ -9,7 +9,8 @@
                 <th class="col-md-3"><p jhiTranslate="pools.list.headers.name">Name</p></th>
                 <th class="col-md-2"><p jhiTranslate="pools.list.headers.size">Size</p></th>
                 <th class="col-md-1"><p jhiTranslate="pools.list.headers.enabled">Enabled</p></th>
-                <th class="col-md-6"><p jhiTranslate="pools.list.headers.tools">Tools</p></th>
+                <th class="col-md-5"><p jhiTranslate="pools.list.headers.tools">Tools</p></th>
+                <th class="col-md-1"><p jhiTranslate="pools.list.headers.book">Book</p></th>
             </tr>
             </thead>
 
@@ -20,10 +21,18 @@
                 <td class="col-md-1">
                     <fa-icon *ngIf="pool.enabled"  icon="check"></fa-icon>
                 </td>
-                <td class="col-md-6">
+                <td class="col-md-5">
                     <div *ngFor="let tool of pool.description" class="d-inline">
                         <span>{{tool.name}} ({{tool.version}})</span>
                     </div>
+                </td>
+                <td class="col-md-1">
+                    <button class="btn btn-primary"
+                            [routerLink]="['/pool/book/'+pool.poolId]">
+                        <fa-icon [icon]="'plus'"></fa-icon><span jhiTranslate="pools.list.headers.book">
+                        Book
+                    </span>
+                    </button>
                 </td>
             </tr>
             </tbody>
