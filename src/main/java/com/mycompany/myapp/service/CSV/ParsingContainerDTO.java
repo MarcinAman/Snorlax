@@ -3,6 +3,7 @@ package com.mycompany.myapp.service.CSV;
 import com.mycompany.myapp.domain.Pool;
 
 import java.util.LinkedList;
+import java.util.UUID;
 
 public class ParsingContainerDTO {
     private String poolId;
@@ -12,7 +13,7 @@ public class ParsingContainerDTO {
     private String description;
 
     public void setPool_id(String pool_id) {
-        this.poolId = pool_id;
+        this.poolId = UUID.nameUUIDFromBytes(pool_id.getBytes()).toString();
     }
 
     public void setPoolId(String pool_id) {
@@ -61,23 +62,12 @@ public class ParsingContainerDTO {
 
     public Pool toEmptyPool() {
         Pool pool = new Pool();
+        pool.setPoolId(poolId);
         pool.setDisplayName(displayName);
         pool.setEnabled(enabled);
         pool.setMaximumCount(maximumCount);
-        pool.setPoolId(poolId);
         pool.setTools(new LinkedList<>());
         pool.setReservations(new LinkedList<>());
-        return pool;
-    }
-
-    public Pool toPool(Pool oldPool) {
-        Pool pool = new Pool();
-        pool.setDisplayName(displayName);
-        pool.setEnabled(enabled);
-        pool.setMaximumCount(maximumCount);
-        pool.setPoolId(poolId);
-        pool.setTools(oldPool.getTools());
-        pool.setReservations(oldPool.getReservations());
         return pool;
     }
 }
