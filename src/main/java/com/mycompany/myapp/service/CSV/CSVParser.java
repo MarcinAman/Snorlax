@@ -4,16 +4,19 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.mycompany.myapp.domain.Pool;
+import com.mycompany.myapp.service.pool.FileParser;
 import io.vavr.Tuple;
 import io.vavr.collection.List;
 import io.vavr.collection.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 
-
-public class CSVParser {
+@Component
+public class CSVParser implements FileParser{
     private static final Logger logger = LoggerFactory.getLogger(CSVParser.class);
 
     private static List<ParsingContainer> loadObjectList(InputStream file) {
@@ -37,7 +40,7 @@ public class CSVParser {
             .forAll(poolId -> !objects.containsKey(poolId));
     }
 
-    public static List<Pool> read(InputStream file, List<String> poolIdInDatabase) {
+    public List<Pool> read(InputStream file, List<String> poolIdInDatabase) {
         List<ParsingContainer> objects = loadObjectList(file);
         if (verify(objects, poolIdInDatabase)) {
             return objects.map(ParsingContainer::toEmptyPool);
