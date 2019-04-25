@@ -21,6 +21,7 @@ import { SnorlaxEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent } from './layouts';
+import { PoolModule } from 'app/pool/pool.module';
 
 @NgModule({
     imports: [
@@ -40,7 +41,8 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         SnorlaxAccountModule,
         SnorlaxUploadModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
-        SnorlaxEntityModule
+        SnorlaxEntityModule,
+        PoolModule
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
     providers: [
