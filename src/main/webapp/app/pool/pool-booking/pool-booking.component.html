@@ -1,0 +1,28 @@
+<div class="row">
+    <h1 class="col-md-12" jhiTranslate="pools.booking.title">Book a pool</h1>
+</div>
+<div>
+    <jhi-alert></jhi-alert>
+    <jhi-alert-error></jhi-alert-error>
+    <div class="form-group" [hidden]="!reservationPoolId">
+        <label jhiTranslate="pools.booking.fields.id">ID</label>
+        <input type="text" class="form-control" name="id"
+               [ngModel]="reservationPoolId" readonly>
+    </div>
+    <div>
+        <label jhiTranslate="pools.booking.fields.count">Count</label>
+        <input type="number" class="form-control" name="count"
+            [(ngModel)]="count" min="1">
+        <small *ngIf="count<1" jhiTranslate="pools.booking.minvalue" class="form-text text-danger">
+            Value should be greater than 0
+        </small>
+    </div>
+    <br>
+    <div>
+        <button class="btn btn-primary float-right" (click)="book()">
+            <span jhiTranslate="pools.list.headers.book">
+                Book
+            </span>
+        </button>
+    </div>
+</div>
