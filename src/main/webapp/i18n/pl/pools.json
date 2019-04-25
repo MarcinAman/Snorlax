@@ -1,0 +1,22 @@
+{
+    "pools": {
+        "list": {
+            "title": "Pule PCoIP",
+            "headers": {
+                "name": "Nazwa",
+                "size": "Rozmiar",
+                "enabled": "Włączone",
+                "tools": "Narzędzia",
+                "book": "Zarezerwuj"
+            }
+        },
+        "booking": {
+            "title": "Zarezerwuj pulę",
+            "fields": {
+                "id": "ID",
+                "count": "Ilość"
+            },
+            "minvalue": "Wartość musi być większa niż 0"
+        }
+    }
+}
