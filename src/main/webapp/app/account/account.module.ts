@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { SnorlaxSharedModule } from 'app/shared';
 
 import {
+    LoginComponent,
     PasswordStrengthBarComponent,
     RegisterComponent,
     ActivateComponent,
@@ -18,6 +19,7 @@ import {
     imports: [SnorlaxSharedModule, RouterModule.forChild(accountState)],
     declarations: [
         ActivateComponent,
+        LoginComponent,
         RegisterComponent,
         PasswordComponent,
         PasswordStrengthBarComponent,

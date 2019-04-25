@@ -1,29 +1,27 @@
 import { ComponentFixture, TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { LoginService } from 'app/core/login/login.service';
-import { JhiLoginModalComponent } from 'app/shared/login/login.component';
 import { StateStorageService } from 'app/core/auth/state-storage.service';
 import { SnorlaxTestModule } from '../../../test.module';
 import { MockLoginService } from '../../../helpers/mock-login.service';
 import { MockStateStorageService } from '../../../helpers/mock-state-storage.service';
+import { LoginComponent } from 'app/account';
 
 describe('Component Tests', () => {
     describe('LoginComponent', () => {
-        let comp: JhiLoginModalComponent;
-        let fixture: ComponentFixture<JhiLoginModalComponent>;
+        let comp: LoginComponent;
+        let fixture: ComponentFixture<LoginComponent>;
         let mockLoginService: any;
         let mockStateStorageService: any;
         let mockRouter: any;
         let mockEventManager: any;
-        let mockActiveModal: any;
 
         beforeEach(async(() => {
             TestBed.configureTestingModule({
                 imports: [SnorlaxTestModule],
-                declarations: [JhiLoginModalComponent],
+                declarations: [LoginComponent],
                 providers: [
                     {
                         provide: LoginService,
@@ -35,18 +33,17 @@ describe('Component Tests', () => {
                     }
                 ]
             })
-                .overrideTemplate(JhiLoginModalComponent, '')
+                .overrideTemplate(LoginComponent, '')
                 .compileComponents();
         }));
 
         beforeEach(() => {
-            fixture = TestBed.createComponent(JhiLoginModalComponent);
+            fixture = TestBed.createComponent(LoginComponent);
             comp = fixture.componentInstance;
             mockLoginService = fixture.debugElement.injector.get(LoginService);
             mockStateStorageService = fixture.debugElement.injector.get(StateStorageService);
             mockRouter = fixture.debugElement.injector.get(Router);
             mockEventManager = fixture.debugElement.injector.get(JhiEventManager);
-            mockActiveModal = fixture.debugElement.injector.get(NgbActiveModal);
         });
 
         it('should authenticate the user upon login when previous state was set', inject(
@@ -63,7 +60,7 @@ describe('Component Tests', () => {
                 comp.rememberMe = true;
                 comp.credentials = credentials;
                 mockLoginService.setResponse({});
-                mockStateStorageService.setResponse({ redirect: 'dummy' });
+                mockStateStorageService.setResponse({ redirect: '' });
 
                 // WHEN/
                 comp.login();
@@ -71,12 +68,9 @@ describe('Component Tests', () => {
 
                 // THEN
                 expect(comp.authenticationError).toEqual(false);
-                expect(mockActiveModal.dismissSpy).toHaveBeenCalledWith('login success');
                 expect(mockEventManager.broadcastSpy).toHaveBeenCalledTimes(1);
                 expect(mockLoginService.loginSpy).toHaveBeenCalledWith(credentials);
-                expect(mockStateStorageService.getUrlSpy).toHaveBeenCalledTimes(1);
-                expect(mockStateStorageService.storeUrlSpy).toHaveBeenCalledWith(null);
-                expect(mockRouter.navigateSpy).toHaveBeenCalledWith([{ redirect: 'dummy' }]);
+                expect(mockRouter.navigateSpy).toHaveBeenCalledTimes(1);
             })
         ));
 
@@ -102,46 +96,17 @@ describe('Component Tests', () => {
 
                 // THEN
                 expect(comp.authenticationError).toEqual(false);
-                expect(mockActiveModal.dismissSpy).toHaveBeenCalledWith('login success');
                 expect(mockEventManager.broadcastSpy).toHaveBeenCalledTimes(1);
                 expect(mockLoginService.loginSpy).toHaveBeenCalledWith(credentials);
-                expect(mockStateStorageService.getUrlSpy).toHaveBeenCalledTimes(1);
-                expect(mockStateStorageService.storeUrlSpy).not.toHaveBeenCalled();
-                expect(mockRouter.navigateSpy).not.toHaveBeenCalled();
+                expect(mockRouter.navigateSpy).toHaveBeenCalledTimes(1);
             })
         ));
-
-        it('should empty the credentials upon cancel', () => {
-            // GIVEN
-            const credentials = {
-                username: 'admin',
-                password: 'admin',
-                rememberMe: true
-            };
-
-            const expected = {
-                username: null,
-                password: null,
-                rememberMe: true
-            };
-
-            comp.credentials = credentials;
-
-            // WHEN
-            comp.cancel();
-
-            // THEN
-            expect(comp.authenticationError).toEqual(false);
-            expect(comp.credentials).toEqual(expected);
-            expect(mockActiveModal.dismissSpy).toHaveBeenCalledWith('cancel');
-        });
 
         it('should redirect user when register', () => {
             // WHEN
             comp.register();
 
             // THEN
-            expect(mockActiveModal.dismissSpy).toHaveBeenCalledWith('to state register');
             expect(mockRouter.navigateSpy).toHaveBeenCalledWith(['/register']);
         });
 
@@ -150,7 +115,6 @@ describe('Component Tests', () => {
             comp.requestResetPassword();
 
             // THEN
-            expect(mockActiveModal.dismissSpy).toHaveBeenCalledWith('to state requestReset');
             expect(mockRouter.navigateSpy).toHaveBeenCalledWith(['/reset', 'request']);
         });
     });
