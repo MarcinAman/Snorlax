@@ -12,8 +12,6 @@ import java.util.List;
 public class Pool {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "poolId")
     private String poolId;
 

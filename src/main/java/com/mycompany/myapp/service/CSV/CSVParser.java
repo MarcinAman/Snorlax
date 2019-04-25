@@ -20,10 +20,18 @@ public class CSVParser implements FileParser{
 
     public List<Pool> read(InputStream file, List<String> poolIdInDatabase) {
         List<ParsingContainerDTO> objects = loadObjectList(file);
+
+        return objects.map(ParsingContainerDTO::toEmptyPool);
+
+    }
+
+    @Override
+    public Boolean verify(InputStream file, List<String> poolIdInDatabase) {
+        List<ParsingContainerDTO> objects = loadObjectList(file);
         if (verify(objects, poolIdInDatabase)) {
-            return objects.map(ParsingContainerDTO::toEmptyPool);
+            return Boolean.TRUE;
         }
-        return List.empty();
+        return Boolean.FALSE;
     }
 
     private static List<ParsingContainerDTO> loadObjectList(InputStream file) {

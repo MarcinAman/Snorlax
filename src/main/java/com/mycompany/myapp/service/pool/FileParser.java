@@ -9,4 +9,6 @@ public interface FileParser {
 
     List<Pool> read (InputStream file, List<String> poolIdInDatabase);
 
+    Boolean verify (InputStream file, List<String> poolIdInDatabase);
+
 }
