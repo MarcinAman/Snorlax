@@ -1,0 +1,8 @@
+{
+    "upload": {
+        "title": "Upload file with pools",
+        "drop": "Drop file here or",
+        "name": "Name",
+        "upload": "Upload"
+    }
+}

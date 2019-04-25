@@ -1,0 +1,8 @@
+{
+    "upload": {
+        "title": "Prześlij plik z pulami",
+        "drop": "Upuść plik tutaj, albo",
+        "name": "Nazwa pliku",
+        "upload": "Prześlij"
+    }
+}

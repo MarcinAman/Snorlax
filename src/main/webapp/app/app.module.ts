@@ -14,7 +14,8 @@ import { NotificationInterceptor } from './blocks/interceptor/notification.inter
 import { SnorlaxSharedModule } from 'app/shared';
 import { SnorlaxCoreModule } from 'app/core';
 import { SnorlaxAppRoutingModule } from './app-routing.module';
-import { SnorlaxHomeModule } from './home/home.module';
+import { SnorlaxHomeModule } from './home';
+import { SnorlaxUploadModule } from './upload';
 import { SnorlaxAccountModule } from './account/account.module';
 import { SnorlaxEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
@@ -38,6 +39,7 @@ import { PoolModule } from 'app/pool/pool.module';
         SnorlaxCoreModule,
         SnorlaxHomeModule,
         SnorlaxAccountModule,
+        SnorlaxUploadModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         SnorlaxEntityModule,
         PoolModule
