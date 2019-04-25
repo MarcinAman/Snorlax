@@ -17,29 +17,8 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 
 @Component
-public class CSVParser implements FileParser{
+public class CSVParser implements FileParser {
     private static final Logger logger = LoggerFactory.getLogger(CSVParser.class);
-
-    public static List<Pool> read(InputStream file, List<String> poolIdInDatabase) {
-        List<ParsingContainerDTO> objects = loadObjectList(file);
-        if (verify(objects, poolIdInDatabase)) {
-            return objects.map(obj -> {
-                Pool pool = obj.toEmptyPool();
-                pool.setTools(toolsForPool(obj, pool).toJavaList());
-                return pool;
-            });
-        }
-        return List.empty();
-    }
-  
-  @Override
-    public Boolean verify(InputStream file, List<String> poolIdInDatabase) {
-        List<ParsingContainerDTO> objects = loadObjectList(file);
-        if (verify(objects, poolIdInDatabase)) {
-            return Boolean.TRUE;
-        }
-        return Boolean.FALSE;
-    }
 
     private static List<ParsingContainerDTO> loadObjectList(InputStream file) {
         try {
@@ -58,9 +37,6 @@ public class CSVParser implements FileParser{
         return List.empty();
     }
 
-    private static Boolean verify(List<ParsingContainerDTO> parsedObjs, List<String> poolIdInDatabase) {
-        Map<String, ParsingContainerDTO> objects =
-            parsedObjs.toLinkedMap(parsingContainerDTO -> Tuple.of(parsingContainerDTO.getPoolId(), parsingContainerDTO));
     private static List<Tool> toolsForPool(ParsingContainerDTO obj, Pool pool) {
         return List.of(
             obj
@@ -91,5 +67,26 @@ public class CSVParser implements FileParser{
                 parsingContainerDTO));
         return poolIdInDatabase
             .forAll(poolId -> !objects.containsKey(poolId));
+    }
+
+    public List<Pool> read(InputStream file, List<String> poolIdInDatabase) {
+        List<ParsingContainerDTO> objects = loadObjectList(file);
+        if (verify(objects, poolIdInDatabase)) {
+            return objects.map(obj -> {
+                Pool pool = obj.toEmptyPool();
+                pool.setTools(toolsForPool(obj, pool).toJavaList());
+                return pool;
+            });
+        }
+        return List.empty();
+    }
+
+    @Override
+    public Boolean verify(InputStream file, List<String> poolIdInDatabase) {
+        List<ParsingContainerDTO> objects = loadObjectList(file);
+        if (verify(objects, poolIdInDatabase)) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
     }
 }
