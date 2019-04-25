@@ -4,38 +4,28 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.mycompany.myapp.domain.Pool;
+import com.mycompany.myapp.service.pool.FileParser;
 import com.mycompany.myapp.domain.Tool;
+
 import io.vavr.Tuple;
 import io.vavr.collection.List;
 import io.vavr.collection.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 
-
-public class CSVParser {
+@Component
+public class CSVParser implements FileParser {
     private static final Logger logger = LoggerFactory.getLogger(CSVParser.class);
-
-    public static List<Pool> read(InputStream file, List<String> poolIdInDatabase) {
-        List<ParsingContainerDTO> objects = loadObjectList(file);
-        if (verify(objects, poolIdInDatabase)) {
-            return objects.map(obj -> {
-                Pool pool = obj.toEmptyPool();
-                pool.setTools(toolsForPool(obj, pool).toJavaList());
-                return pool;
-            });
-        }
-        return List.empty();
-    }
 
     private static List<ParsingContainerDTO> loadObjectList(InputStream file) {
         try {
             CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader();
             Reader reader = new InputStreamReader(file);
             CsvMapper mapper = new CsvMapper();
+
             MappingIterator<ParsingContainerDTO> it = mapper
                 .readerFor(ParsingContainerDTO.class)
                 .with(bootstrapSchema)
@@ -77,5 +67,26 @@ public class CSVParser {
                 parsingContainerDTO));
         return poolIdInDatabase
             .forAll(poolId -> !objects.containsKey(poolId));
+    }
+
+    public List<Pool> read(InputStream file, List<String> poolIdInDatabase) {
+        List<ParsingContainerDTO> objects = loadObjectList(file);
+        if (verify(objects, poolIdInDatabase)) {
+            return objects.map(obj -> {
+                Pool pool = obj.toEmptyPool();
+                pool.setTools(toolsForPool(obj, pool).toJavaList());
+                return pool;
+            });
+        }
+        return List.empty();
+    }
+
+    @Override
+    public Boolean verify(InputStream file, List<String> poolIdInDatabase) {
+        List<ParsingContainerDTO> objects = loadObjectList(file);
+        if (verify(objects, poolIdInDatabase)) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
     }
 }
