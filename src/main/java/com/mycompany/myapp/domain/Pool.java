@@ -1,7 +1,5 @@
 package com.mycompany.myapp.domain;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -30,7 +28,7 @@ public class Pool {
     @OneToMany(mappedBy = "pool")
     private List<Reservation> reservations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "pool")
+    @OneToMany(mappedBy = "pool",cascade = CascadeType.ALL)
     private List<Tool> tools = new ArrayList<>();
 
 
