@@ -1,0 +1,23 @@
+/* ==========================================================================
+Upload page styles
+========================================================================== */
+.upload {
+    text-align: center;
+}
+
+.file-drop {
+    margin: auto;
+    border: 2px dotted blue;
+    border-radius: 30px;
+    padding: 1rem;
+}
+
+.drop-text {
+    color: #007bff;
+    padding-bottom: 1rem;
+}
+
+.error-message {
+    color: red;
+    padding: 0.5rem;
+}
