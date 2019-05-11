@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PoolBookingService } from 'app/pool/pool-booking/pool-booking.service';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
@@ -17,6 +19,8 @@ export class PoolBookingComponent implements OnInit {
     public tools: Observable<any[]>;
     public selectedTools: Tool[];
     additionalTools: AdditionalTools;
+    public from: Date;
+    public to: Date;
 
     constructor(private route: ActivatedRoute, private poolBookingService: PoolBookingService, private elementRef: ElementRef) {}
 
@@ -30,7 +34,9 @@ export class PoolBookingComponent implements OnInit {
     }
 
     book(): void {
-        this.poolBookingService.book(this.reservationPoolId, this.count).subscribe(this.previousState);
+        this.to = new Date(this.to);
+        this.from = new Date(this.from);
+        this.poolBookingService.book(this).subscribe(this.previousState);
         if (this.selectedTools.length !== 0) {
             this.additionalTools = new AdditionalTools(this.reservationPoolId, this.selectedTools.map(tool => tool.name));
             this.poolBookingService.sendToolsRequest(this.additionalTools).subscribe(this.previousState);

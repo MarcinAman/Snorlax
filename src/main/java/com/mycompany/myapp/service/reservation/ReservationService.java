@@ -8,6 +8,7 @@ import com.mycompany.myapp.service.MailService;
 import com.mycompany.myapp.service.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,16 +29,17 @@ public class ReservationService {
         this.mailService = mailService;
     }
 
-    public Long reserve(String poolId, int count) throws Exception {
+    public Reservation reserve(String poolId, int count, Date from, Date to) throws Exception {
         Pool pool = poolRepository.getFullByIdWithReservation(poolId);
-        int alreadyReserved =  getAlreadyReservedCount(pool.getReservations());
+        int alreadyReserved =  getAlreadyReservedCount(pool.getReservations(), from, to);
         if (count <= pool.getMaximumCount() - alreadyReserved && pool.isEnabled()) {
-            Reservation z = reservationRepository.save(new Reservation(
+            return reservationRepository.save(new Reservation(
                 userService.getUserWithAuthorities().get(),
                 pool,
-                count
+                count,
+                from ,
+                to
             ));
-            return z.getId();
         } else {
             throw new Exception("unable to make reservation");
         }
@@ -58,6 +60,19 @@ public class ReservationService {
 
     private int getAlreadyReservedCount(List<Reservation> reservation) {
         return reservation.stream().map(r -> r.getCount()).reduce((r1, r2) -> r1 + r2).orElse(0);
+    }
+
+    private int getAlreadyReservedCount(List<Reservation> reservation, Date from, Date to) {
+        return reservation
+            .stream()
+            .filter(r -> isOverlaping(r, from, to))
+            .map(r -> r.getCount())
+            .reduce((r1, r2) -> r1 + r2)
+            .orElse(0);
+    }
+
+    private boolean isOverlaping(Reservation reservation, Date from, Date to) {
+        return !(reservation.getFrom().compareTo(to) >= 0  || reservation.getTo().compareTo(from) < 0 );
     }
 
 }

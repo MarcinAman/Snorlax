@@ -2,10 +2,12 @@ package com.mycompany.myapp.web.rest.reservation;
 
 import com.codahale.metrics.annotation.Timed;
 import com.mycompany.myapp.domain.Reservation;
+import com.mycompany.myapp.service.dto.ReservationDTO;
 import com.mycompany.myapp.service.reservation.ReservationService;
 import com.mycompany.myapp.web.rest.util.HeaderUtil;
 import com.mycompany.myapp.web.rest.vm.AdditionalToolsVM;
 import io.github.jhipster.web.util.ResponseUtil;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,11 +25,17 @@ public class ReservationResource {
         this.reservationService = reservationService;
     }
 
-    @GetMapping("/reserve")
-    @Timed
-    public ResponseEntity<Void> reserve(@RequestParam(value = "poolId") String poolId, @RequestParam(value = "count") int count) throws Exception {
-        reservationService.reserve(poolId, count);
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert( "reservation.failed", poolId)).build();
+    @PostMapping("/reserve")
+    public ResponseEntity<Void> reserve(@RequestBody ReservationDTO reservationDTO) throws Exception {
+        reservationService.reserve(
+            reservationDTO.getPoolId(),
+            reservationDTO.getCount(),
+            reservationDTO.getFrom(),
+            reservationDTO.getTo()
+        );
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createAlert( "reservation.accepted", reservationDTO.getPoolId()))
+            .build();
     }
 
     @GetMapping("/reservation")
