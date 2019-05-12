@@ -22,7 +22,7 @@
                     <fa-icon *ngIf="pool.enabled"  icon="check"></fa-icon>
                 </td>
                 <td class="col-md-5">
-                    <div *ngFor="let tool of pool.description" class="d-inline">
+                    <div *ngFor="let tool of pool.tools" class="d-inline">
                         <span>{{tool.name}} ({{tool.version}})</span>
                     </div>
                 </td>

@@ -14,7 +14,8 @@
             "title": "Zarezerwuj pulę",
             "fields": {
                 "id": "ID",
-                "count": "Ilość"
+                "count": "Ilość",
+                "tools": "Dodatkowe narzędzia"
             },
             "minvalue": "Wartość musi być większa niż 0"
         }

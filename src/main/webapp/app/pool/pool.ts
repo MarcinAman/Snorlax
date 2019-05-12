@@ -5,5 +5,5 @@ export interface Pool {
     displayName: string;
     maximumCount: number;
     enabled: boolean;
-    description: Tool[];
+    tools: Tool[];
 }

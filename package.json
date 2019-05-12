@@ -19,7 +19,9 @@
     "@fortawesome/fontawesome-svg-core": "1.2.8",
     "@fortawesome/free-solid-svg-icons": "5.5.0",
     "@ng-bootstrap/ng-bootstrap": "4.0.0",
+    "@ng-select/ng-select": "^2.19.0",
     "bootstrap": "4.3.1",
+    "bootstrap-select": "^1.13.10",
     "core-js": "2.5.7",
     "moment": "2.22.2",
     "ng-jhipster": "0.5.6",
@@ -34,7 +36,7 @@
     "zone.js": "0.8.26"
   },
   "devDependencies": {
-    "@angular/cli": "7.0.2",
+    "@angular/cli": "^7.0.2",
     "@angular/compiler-cli": "^7.2.10",
     "@ngtools/webpack": "7.0.2",
     "@types/jest": "23.3.5",
