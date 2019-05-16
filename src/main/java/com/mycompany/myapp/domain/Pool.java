@@ -28,7 +28,7 @@ public class Pool {
     @OneToMany(mappedBy = "pool")
     private List<Reservation> reservations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "pool",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pool",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Tool> tools = new ArrayList<>();
 
 
