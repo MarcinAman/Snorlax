@@ -23,13 +23,17 @@ public class PoolService {
         return poolRepository.findAll();
     }
 
-    public void loadFile(MultipartFile file) throws IOException{
+    public void loadFile(MultipartFile file) throws IOException {
         io.vavr.collection.List<String> currentlyReserved = poolRepository.getAllPoolId();
         poolRepository.saveAll(fileParser.read(file.getInputStream(), currentlyReserved));
     }
 
-    public Boolean verify(MultipartFile file) throws IOException{
+    public Boolean verify(MultipartFile file) throws IOException {
         io.vavr.collection.List<String> currentlyReserved = poolRepository.getAllPoolId();
         return fileParser.verify(file.getInputStream(), currentlyReserved);
+    }
+
+    public java.util.List<Pool> parse(MultipartFile file) throws IOException {
+        return fileParser.parse(file.getInputStream()).toJavaList();
     }
 }

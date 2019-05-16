@@ -1,9 +1,11 @@
 package com.mycompany.myapp.domain;
 
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 @Table(name = "pool")

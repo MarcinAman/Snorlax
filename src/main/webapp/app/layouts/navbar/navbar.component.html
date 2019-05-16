@@ -35,6 +35,14 @@
                     </span>
                 </a>
             </li>
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link" routerLink="/diff" (click)="collapseNavbar()">
+                    <span>
+                        <fa-icon icon="not-equal"></fa-icon>
+                        <span jhiTranslate="global.menu.diff">Upload</span>
+                    </span>
+                </a>
+            </li>
             <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>

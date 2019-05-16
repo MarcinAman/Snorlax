@@ -42,7 +42,8 @@ import {
     faHome,
     faUpload,
     faCheck,
-    faTable
+    faTable,
+    faNotEqual
 } from '@fortawesome/free-solid-svg-icons';
 
 // Adds the SVG icon to the library so you can use it in your page
@@ -83,4 +84,5 @@ library.add(faAsterisk);
 library.add(faUpload);
 library.add(faCheck);
 library.add(faTable);
+library.add(faNotEqual);
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here

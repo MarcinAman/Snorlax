@@ -2,6 +2,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UploadEvent, UploadFile, FileSystemFileEntry } from 'ngx-file-drop';
 import { UploadService } from './upload.service';
+import { Pool } from 'app/pool/pool';
+import { PoolListService } from 'app/pool/pool-list/pool-list.service';
+
+enum PoolType {
+    New,
+    Old
+}
 
 @Component({
     selector: 'jhi-home',
@@ -12,10 +19,22 @@ export class UploadComponent {
     error: string;
     uploadResponse = { status: '', message: '' };
 
+    currentPool: Map<String, Pool> = new Map<String, Pool>();
+    newPool: Map<String, Pool> = new Map<String, Pool>();
+
+    public poolType = PoolType;
+
+    currentConflictPool: Pool[] = [];
+    newConflictPool: Pool[] = [];
+
+    merged: Pool[] = [];
+
+    choosePattern = new Map();
+
     public files: UploadFile[] = [];
     file: File;
 
-    constructor(private uploadService: UploadService, private router: Router) {}
+    constructor(private uploadService: UploadService, private router: Router, private poolService: PoolListService) {}
 
     onSubmit() {
         if (!this.file) {
@@ -24,7 +43,35 @@ export class UploadComponent {
         this.clearField();
         const formData = new FormData();
         formData.append('file', this.file);
-        this.uploadService.upload(formData).subscribe(
+
+        this.poolService.getPools().subscribe(pools => {
+            pools.forEach(pool => this.currentPool.set(pool.poolId, pool));
+        });
+        this.uploadService.parse(formData).subscribe(
+            pools => {
+                pools.forEach(pool => this.newPool.set(pool.poolId, pool));
+            },
+            err => {
+                return (this.error = err.message);
+            }
+        );
+        if (this.currentConflictPool.length === 0 || this.newConflictPool.length === 0) {
+            this.getConflicts();
+        }
+    }
+
+    onSave() {
+        this.choosePattern.forEach((value, key) => {
+            let item;
+            if (value === this.poolType.New) {
+                item = this.newPool.get(key);
+            } else {
+                item = this.currentPool.get(key);
+            }
+            this.merged.push(item);
+        });
+
+        this.uploadService.save(this.merged).subscribe(
             async res => {
                 console.log(res);
                 if (res.status === 'success') {
@@ -47,7 +94,6 @@ export class UploadComponent {
     public dropped(event: UploadEvent) {
         this.files = event.files;
         for (const droppedFile of event.files) {
-            // Is it a file?
             if (droppedFile.fileEntry.isFile) {
                 const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
                 fileEntry.file((file: File) => {
@@ -61,5 +107,16 @@ export class UploadComponent {
     private clearField() {
         this.error = '';
         this.uploadResponse = { status: '', message: '' };
+    }
+
+    private getConflicts() {
+        this.newPool.forEach((value, key) => {
+            if (this.currentPool.has(key) && JSON.stringify(this.currentPool.get(key)) !== JSON.stringify(this.newPool.get(key))) {
+                this.newConflictPool.push(value);
+                this.currentConflictPool.push(value);
+            } else {
+                this.merged.push(value);
+            }
+        });
     }
 }

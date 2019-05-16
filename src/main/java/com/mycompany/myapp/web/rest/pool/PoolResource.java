@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
+import springfox.documentation.spring.web.json.Json;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,9 +32,9 @@ public class PoolResource {
 
     @PostMapping("/pool/upload")
     @Timed
-    public ResponseEntity<Void> uploadFile(@RequestParam("file")MultipartFile file) {
+    public ResponseEntity<Void> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
-            if (!file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")).equals(".csv")){
+            if (!file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")).equals(".csv")) {
                 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
             }
             if (!poolService.verify(file)) {
@@ -45,7 +45,22 @@ public class PoolResource {
                 poolService.loadFile(file);
                 return ResponseEntity.ok().headers(HeaderUtil.createAlert("Uploaded file", file.getName())).build();
             }
-        } catch (Exception ex){
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        }
+    }
+
+
+    @PostMapping("/pool/parse")
+    @Timed
+    public ResponseEntity<List<Pool>> parseFile(@RequestParam("file") MultipartFile file) {
+        try {
+            if (!file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")).equals(".csv")) {
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+            }
+            return ResponseUtil.wrapOrNotFound(Optional.of(poolService.parse(file)));
+
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
         }
     }

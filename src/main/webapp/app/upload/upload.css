@@ -21,3 +21,39 @@ Upload page styles
     color: red;
     padding: 0.5rem;
 }
+
+.table_list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.table_side_by_side {
+    width: 50%;
+}
+
+.col-md-3 {
+    max-width: 15%;
+    display: flex;
+}
+
+.col-md-2 {
+    max-width: 10%;
+    display: flex;
+}
+
+.col-md-1 {
+    max-width: 10%;
+    display: flex;
+}
+
+.col-md-5 {
+    max-width: 60%;
+    display: flex;
+}
+
+.row {
+    margin-right: 0;
+    margin-left: 0;
+}
