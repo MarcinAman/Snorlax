@@ -1,6 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PoolBookingService } from 'app/pool/pool-booking/pool-booking.service';
 import { Observable } from 'rxjs';

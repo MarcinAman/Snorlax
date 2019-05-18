@@ -2,6 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { PoolBookingService } from 'app/pool/pool-booking/pool-booking.service';
 import { SERVER_API_URL } from 'app/app.constants';
+import { JhiAlertService } from 'ng-jhipster';
+import { MockAlertService } from '../../../helpers/mock-alert.service';
+import { JhiAlertErrorComponent } from 'app/shared';
 
 describe('Service Tests', () => {
     describe('Booking Service', () => {
@@ -10,8 +13,16 @@ describe('Service Tests', () => {
 
         beforeEach(() => {
             TestBed.configureTestingModule({
-                imports: [HttpClientTestingModule]
-            });
+                imports: [HttpClientTestingModule],
+                providers: [
+                    {
+                        provide: JhiAlertService,
+                        useClass: MockAlertService
+                    }
+                ]
+            })
+                .overrideTemplate(JhiAlertErrorComponent, '')
+                .compileComponents();
 
             bookingService = TestBed.get(PoolBookingService);
             httpMock = TestBed.get(HttpTestingController);

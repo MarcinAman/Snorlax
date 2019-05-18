@@ -15,7 +15,7 @@
             "fields": {
                 "id": "ID",
                 "count": "Ilość",
-                "tools": "Dodatkowe narzędzia"
+                "tools": "Dodatkowe narzędzia",
                 "from": "od",
                 "to": "do"
             },

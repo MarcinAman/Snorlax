@@ -15,7 +15,7 @@
             "fields": {
                 "id": "ID",
                 "count": "Count",
-                "tools": "Additional tools"
+                "tools": "Additional tools",
                 "from": "From",
                 "to": "To"
             },
