@@ -71,12 +71,12 @@ Navbar
 Logo styles
 ========================================================================== */
 .navbar-brand.logo {
-    padding: 5px 15px;
+    padding: 5px 10px;
 }
 
 .logo-img {
     height: 100%;
-    background: url('../../../content/images/logo-jhipster.png') no-repeat center center;
+    background: url('../../../content/images/snorlax.png') no-repeat center center;
     background-size: contain;
     width: 100%;
 }

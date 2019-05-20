@@ -18,7 +18,23 @@
                     </span>
                 </a>
             </li>
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link" routerLink="/pool/list" (click)="collapseNavbar()">
+                    <span>
+                        <fa-icon icon="table"></fa-icon>
+                        <span jhiTranslate="global.menu.pools">Pools</span>
+                    </span>
+                </a>
+            </li>
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
+            <li *jhiHasAnyAuthority="'ROLE_ADMIN'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <a class="nav-link" routerLink="/upload" (click)="collapseNavbar()">
+                    <span>
+                        <fa-icon icon="upload"></fa-icon>
+                        <span jhiTranslate="global.menu.upload">Upload</span>
+                    </span>
+                </a>
+            </li>
             <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
@@ -136,9 +152,9 @@
                         </a>
                     </li>
                     <li *ngSwitchCase="false">
-                        <a class="dropdown-item" (click)="login()" id="login">
+                        <a class="dropdown-item" routerLink="login" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="sign-in-alt" fixedWidth="true"></fa-icon>
-                            <span jhiTranslate="global.menu.account.login">Sign in</span>
+                            <span jhiTranslate="global.menu.account.login">Sign In</span>
                         </a>
                     </li>
                     <li *ngSwitchCase="false">

@@ -92,7 +92,7 @@
                 </div>
                 <div class="form-check">
                     <label class="form-check-label" for="activated">
-                        <input class="form-check-input" [disabled]="user.id === null" type="checkbox" id="activated" name="activated" [(ngModel)]="user.activated">
+                        <input class="form-check-input" [disabled]="user.login === null" type="checkbox" id="activated" name="activated" [(ngModel)]="user.activated">
                         <span jhiTranslate="userManagement.activated">Activated</span>
                     </label>
                 </div>

@@ -43,7 +43,8 @@ spring:
             auto-commit: false
     h2:
         console:
-            enabled: false
+            enabled: true
+            path: /h2-console
     jpa:
         database-platform: io.github.jhipster.domain.util.FixedH2Dialect
         database: H2
@@ -57,10 +58,19 @@ spring:
     liquibase:
         contexts: dev
     mail:
-        host: localhost
-        port: 25
-        username:
-        password:
+        host: smtp.gmail.com
+        port: 587
+        username: snorlax.io2019@gmail.com  # Replace this field with your Gmail username.
+        password: fwacuwauattdiaai          # Replace this field with your Gmail password.
+        protocol: smtp
+        properties.mail.smtp:
+            auth: true
+            starttls.enable: true
+            starttls.required: true
+            ssl.trust: smtp.gmail.com
+            connectiontimeout: 5000
+            timeout: 5000
+            writetimeout: 5000
     messages:
         cache-duration: PT1S # 1 second, see the ISO 8601 standard
     thymeleaf:
@@ -121,4 +131,6 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+    admin:
+        mail: snorlax.io2019@gmail.com

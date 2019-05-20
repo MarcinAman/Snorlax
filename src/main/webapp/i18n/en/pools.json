@@ -1,0 +1,27 @@
+{
+    "pools": {
+        "list": {
+            "title": "PCoIP pools",
+            "headers": {
+                "name": "Name",
+                "size": "Size",
+                "enabled": "Enabled",
+                "tools": "Tools",
+                "book": "Book"
+            }
+        },
+        "booking": {
+            "title": "Book a pool",
+            "fields": {
+                "id": "ID",
+                "count": "Count",
+                "tools": "Additional tools",
+                "from": "From",
+                "to": "To"
+            },
+            "minvalue": "Value should be greater than 0",
+            "from-err": "from date not defined",
+            "to-err": "to date not defined"
+        }
+    }
+}
