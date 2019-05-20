@@ -17,6 +17,16 @@
             Value should be greater than 0
         </small>
     </div>
+    <div>
+        <label jhiTranslate="pools.booking.fields.from">From</label>
+        <input type="datetime-local" class="form-control" name="from"
+               [(ngModel)]="from"><br />
+    </div>
+    <div>
+        <label jhiTranslate="pools.booking.fields.to">To</label>
+        <input type="datetime-local" class="form-control" name="to"
+               [(ngModel)]="to"><br />
+    </div>
     <br>
     <div class="form-group">
         <label jhiTranslate="pools.booking.fields.tools">Additional tools</label>

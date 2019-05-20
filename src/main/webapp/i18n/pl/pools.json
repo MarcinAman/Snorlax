@@ -15,9 +15,13 @@
             "fields": {
                 "id": "ID",
                 "count": "Ilość",
-                "tools": "Dodatkowe narzędzia"
+                "tools": "Dodatkowe narzędzia",
+                "from": "od",
+                "to": "do"
             },
-            "minvalue": "Wartość musi być większa niż 0"
+            "minvalue": "Wartość musi być większa niż 0",
+            "from-err": "Data początkowa niezdefiniowana",
+            "to-err": "Data końcowa niezdefiniowana"
         }
     }
 }
