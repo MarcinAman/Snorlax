@@ -23,6 +23,10 @@ public class PoolService {
         return poolRepository.findAll();
     }
 
+    public Pool getPoolById(String poolId) {
+        return poolRepository.getByPoolId(poolId);
+    }
+
     public void loadFile(MultipartFile file) throws IOException{
         io.vavr.collection.List<String> currentlyReserved = poolRepository.getAllPoolId();
         poolRepository.saveAll(fileParser.read(file.getInputStream(), currentlyReserved));

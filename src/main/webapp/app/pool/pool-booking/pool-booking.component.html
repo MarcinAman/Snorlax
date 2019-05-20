@@ -18,6 +18,20 @@
         </small>
     </div>
     <br>
+    <div class="form-group">
+        <label jhiTranslate="pools.booking.fields.tools">Additional tools</label>
+        <ng-select
+            [items]="tools | async"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            [hideSelected]="true"
+            [searchable]="true"
+            bindLabel="name"
+            placeholder="Select tools"
+            [(ngModel)]="selectedTools">
+        </ng-select>
+    </div>
+    <br>
     <div>
         <button class="btn btn-primary float-right" (click)="book()">
             <span jhiTranslate="pools.list.headers.book">

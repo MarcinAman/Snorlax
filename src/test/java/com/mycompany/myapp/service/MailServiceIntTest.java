@@ -1,4 +1,5 @@
 package com.mycompany.myapp.service;
+import com.mycompany.myapp.config.ApplicationProperties;
 import com.mycompany.myapp.config.Constants;
 
 import com.mycompany.myapp.SnorlaxApp;
@@ -37,6 +38,9 @@ public class MailServiceIntTest {
     private JHipsterProperties jHipsterProperties;
 
     @Autowired
+    private ApplicationProperties applicationProperties;
+
+    @Autowired
     private MessageSource messageSource;
 
     @Autowired
@@ -54,7 +58,7 @@ public class MailServiceIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         doNothing().when(javaMailSender).send(any(MimeMessage.class));
-        mailService = new MailService(jHipsterProperties, javaMailSender, messageSource, templateEngine);
+        mailService = new MailService(jHipsterProperties, applicationProperties, javaMailSender, messageSource, templateEngine);
     }
 
     @Test

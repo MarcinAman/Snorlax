@@ -4,6 +4,7 @@ import com.mycompany.myapp.domain.Pool;
 import com.mycompany.myapp.domain.Reservation;
 import com.mycompany.myapp.repository.PoolRepository;
 import com.mycompany.myapp.repository.ReservationRepository;
+import com.mycompany.myapp.service.MailService;
 import com.mycompany.myapp.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,13 @@ public class ReservationService {
 
     private UserService userService;
 
-    public ReservationService(ReservationRepository reservationRepository, PoolRepository poolRepository, UserService userService ){
+    private MailService mailService;
+
+    public ReservationService(ReservationRepository reservationRepository, PoolRepository poolRepository, UserService userService, MailService mailService){
         this.poolRepository = poolRepository;
         this.reservationRepository = reservationRepository;
         this.userService = userService;
+        this.mailService = mailService;
     }
 
     public Long reserve(String poolId, int count) throws Exception {
@@ -46,6 +50,10 @@ public class ReservationService {
     public List<Reservation> getAllByPoolId(String poolId) {
         Pool pool = poolRepository.getFullByIdWithReservation(poolId);
         return pool.getReservations();
+    }
+
+    public void sendToolsRequest(String poolId, List<String> selectedTools) throws Exception{
+        mailService.sendToolsRequestEmail(userService.getUserWithAuthorities().get(), poolId, selectedTools);
     }
 
     private int getAlreadyReservedCount(List<Reservation> reservation) {

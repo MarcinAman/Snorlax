@@ -14,7 +14,8 @@
             "title": "Book a pool",
             "fields": {
                 "id": "ID",
-                "count": "Count"
+                "count": "Count",
+                "tools": "Additional tools"
             },
             "minvalue": "Value should be greater than 0"
         }
