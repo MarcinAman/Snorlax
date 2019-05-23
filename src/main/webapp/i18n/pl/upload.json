@@ -4,6 +4,7 @@
         "drop": "Upuść plik tutaj, albo",
         "name": "Nazwa pliku",
         "upload": "Prześlij",
+        "forceSave": "Zapisz siłowo",
         "save": "Zapisz",
         "conflict": "Konflikty"
     }

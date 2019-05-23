@@ -5,12 +5,15 @@ import com.mycompany.myapp.domain.Pool;
 import com.mycompany.myapp.service.pool.PoolService;
 import com.mycompany.myapp.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.spring.web.json.Json;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +51,15 @@ public class PoolResource {
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
         }
+    }
+
+    @PostMapping("/pool/save")
+    @Timed
+    public ResponseEntity<Void> save(@RequestParam("pools") Json pools) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        Pool[] parsed = mapper.readValue(pools.value(), Pool[].class);
+        poolService.save(Arrays.asList(parsed));
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert("Uploaded file", "pools")).build();
     }
 
 

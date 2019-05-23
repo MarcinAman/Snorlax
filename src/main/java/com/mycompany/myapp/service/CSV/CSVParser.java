@@ -1,24 +1,21 @@
 package com.mycompany.myapp.service.CSV;
 
 import com.fasterxml.jackson.databind.MappingIterator;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.mycompany.myapp.domain.Pool;
-import com.mycompany.myapp.service.pool.FileParser;
 import com.mycompany.myapp.domain.Tool;
-
+import com.mycompany.myapp.service.pool.FileParser;
 import io.vavr.Tuple;
 import io.vavr.collection.List;
 import io.vavr.collection.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import springfox.documentation.spring.web.json.Json;
-import springfox.documentation.spring.web.json.JsonSerializer;
 
-import java.io.*;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 @Component
 public class CSVParser implements FileParser {

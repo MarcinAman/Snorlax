@@ -4,6 +4,7 @@
         "drop": "Drop file here or",
         "name": "Name",
         "upload": "Upload",
+        "forceSave": "Force Save",
         "save": "Save",
         "conflict": "Conflicts"
     }

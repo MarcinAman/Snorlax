@@ -29,6 +29,10 @@
                 type="submit" jhiTranslate="upload.upload">
             Upload
         </button>
+        <button (click)="onForceSave()" class="btn btn-primary"
+                jhiTranslate="upload.forceSave" type="submit">
+            Force Save
+        </button>
         <h1 class="col-md-12" jhiTranslate="upload.conflict">Conflicts</h1>
         <div class="table_list">
 
@@ -53,7 +57,7 @@
                         <fa-icon *ngIf="pool.enabled" icon="check"></fa-icon>
                     </td>
                     <td class="col-md-5">
-                        <div *ngFor="let tool of pool.description" class="d-inline">
+                        <div *ngFor="let tool of pool.tools" class="d-inline">
                             <span>{{tool.name}} ({{tool.version}})</span>
                         </div>
                     </td>
@@ -92,7 +96,7 @@
                         <fa-icon *ngIf="pool.enabled" icon="check"></fa-icon>
                     </td>
                     <td class="col-md-5">
-                        <div *ngFor="let tool of pool.description" class="d-inline">
+                        <div *ngFor="let tool of pool.tools" class="d-inline">
                             <span>{{tool.name}} ({{tool.version}})</span>
                         </div>
                     </td>

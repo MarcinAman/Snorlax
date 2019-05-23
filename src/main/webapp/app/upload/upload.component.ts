@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UploadEvent, UploadFile, FileSystemFileEntry } from 'ngx-file-drop';
+import { FileSystemFileEntry, UploadEvent, UploadFile } from 'ngx-file-drop';
 import { UploadService } from './upload.service';
 import { Pool } from 'app/pool/pool';
 import { PoolListService } from 'app/pool/pool-list/pool-list.service';
@@ -36,7 +36,7 @@ export class UploadComponent {
 
     constructor(private uploadService: UploadService, private router: Router, private poolService: PoolListService) {}
 
-    onSubmit() {
+    async onSubmit() {
         if (!this.file) {
             return (this.error = 'Please insert file');
         }
@@ -44,18 +44,16 @@ export class UploadComponent {
         const formData = new FormData();
         formData.append('file', this.file);
 
-        this.poolService.getPools().subscribe(pools => {
-            pools.forEach(pool => this.currentPool.set(pool.poolId, pool));
-        });
-        this.uploadService.parse(formData).subscribe(
-            pools => {
-                pools.forEach(pool => this.newPool.set(pool.poolId, pool));
-            },
-            err => {
-                return (this.error = err.message);
-            }
-        );
-        if (this.currentConflictPool.length === 0 || this.newConflictPool.length === 0) {
+        const oldOnesPromise = this.poolService.getPools().toPromise();
+        const newOnesPromise = this.uploadService.parse(formData).toPromise();
+
+        const oldOnes = await oldOnesPromise;
+        const newOnes = await newOnesPromise;
+
+        oldOnes.body.forEach(pool => this.currentPool.set(pool.poolId, pool));
+        newOnes.body.forEach(pool => this.newPool.set(pool.poolId, pool));
+
+        if (this.currentConflictPool.length === 0 && this.newConflictPool.length === 0) {
             this.getConflicts();
         }
     }
@@ -70,8 +68,32 @@ export class UploadComponent {
             }
             this.merged.push(item);
         });
+        const formData = new FormData();
+        formData.append('pools', JSON.stringify(this.merged));
+        this.uploadService.save(formData).subscribe(
+            async res => {
+                if (res === 'success') {
+                    try {
+                        await this.router.navigate(['/pool/list']);
+                    } catch (e) {
+                        this.error = e;
+                    }
+                }
+            },
+            err => {
+                return (this.error = err.message);
+            }
+        );
+    }
 
-        this.uploadService.save(this.merged).subscribe(
+    onForceSave() {
+        if (!this.file) {
+            return (this.error = 'Please insert file');
+        }
+        this.clearField();
+        const formData = new FormData();
+        formData.append('file', this.file);
+        this.uploadService.upload(formData).subscribe(
             async res => {
                 console.log(res);
                 if (res.status === 'success') {
