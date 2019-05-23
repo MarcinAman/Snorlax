@@ -1,11 +1,9 @@
 package com.mycompany.myapp.domain;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Entity
 @Table(name = "pool")
@@ -30,7 +28,7 @@ public class Pool {
     @OneToMany(mappedBy = "pool")
     private List<Reservation> reservations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "pool",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pool", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Tool> tools = new ArrayList<>();
 
 

@@ -4,10 +4,11 @@ import com.mycompany.myapp.domain.Pool;
 import com.mycompany.myapp.domain.Reservation;
 import com.mycompany.myapp.repository.PoolRepository;
 import com.mycompany.myapp.repository.ReservationRepository;
+import com.mycompany.myapp.service.MailService;
 import com.mycompany.myapp.service.UserService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ReservationService {
@@ -18,22 +19,26 @@ public class ReservationService {
 
     private UserService userService;
 
-    public ReservationService(ReservationRepository reservationRepository, PoolRepository poolRepository, UserService userService ){
+    private MailService mailService;
+
+    public ReservationService(ReservationRepository reservationRepository, PoolRepository poolRepository, UserService userService, MailService mailService){
         this.poolRepository = poolRepository;
         this.reservationRepository = reservationRepository;
         this.userService = userService;
+        this.mailService = mailService;
     }
 
-    public Long reserve(String poolId, int count) throws Exception {
+    public Reservation reserve(String poolId, int count, Date from, Date to) throws Exception {
         Pool pool = poolRepository.getFullByIdWithReservation(poolId);
-        int alreadyReserved =  getAlreadyReservedCount(pool.getReservations());
+        int alreadyReserved =  getAlreadyReservedCount(pool.getReservations(), from, to);
         if (count <= pool.getMaximumCount() - alreadyReserved && pool.isEnabled()) {
-            Reservation z = reservationRepository.save(new Reservation(
+            return reservationRepository.save(new Reservation(
                 userService.getUserWithAuthorities().get(),
                 pool,
-                count
+                count,
+                from ,
+                to
             ));
-            return z.getId();
         } else {
             throw new Exception("unable to make reservation");
         }
@@ -45,11 +50,44 @@ public class ReservationService {
 
     public List<Reservation> getAllByPoolId(String poolId) {
         Pool pool = poolRepository.getFullByIdWithReservation(poolId);
+        if (pool == null) {
+            return new ArrayList<>();
+        }
         return pool.getReservations();
     }
 
-    private int getAlreadyReservedCount(List<Reservation> reservation) {
-        return reservation.stream().map(r -> r.getCount()).reduce((r1, r2) -> r1 + r2).orElse(0);
+    public void sendToolsRequest(String poolId, List<String> selectedTools) throws Exception{
+        mailService.sendToolsRequestEmail(userService.getUserWithAuthorities().get(), poolId, selectedTools);
+    }
+
+    public int getActiveOrInFutureReservedCount(String poolId) {
+        return getActiveOrInFutureReservedCount(getAllByPoolId(poolId), new Date());
+    }
+
+    private int getActiveOrInFutureReservedCount(List<Reservation> reservation, Date now) {
+        return reservation
+            .stream()
+            .filter(r -> isActiveOrInFuture(r, now))
+            .map(Reservation::getCount)
+            .reduce(Integer::sum)
+            .orElse(0);
+    }
+
+    private int getAlreadyReservedCount(List<Reservation> reservation, Date from, Date to) {
+        return reservation
+            .stream()
+            .filter(r -> isOverlaping(r, from, to))
+            .map(r -> r.getCount())
+            .reduce((r1, r2) -> r1 + r2)
+            .orElse(0);
+    }
+
+    private boolean isOverlaping(Reservation reservation, Date from, Date to) {
+        return !(reservation.getFrom().compareTo(to) >= 0  || reservation.getTo().compareTo(from) < 0 );
+    }
+
+    private boolean isActiveOrInFuture(Reservation reservation, Date now) {
+        return reservation.getTo().compareTo(now) >=0;
     }
 
 }

@@ -4,7 +4,10 @@
         "drop": "Upuść plik tutaj, albo",
         "name": "Nazwa pliku",
         "upload": "Prześlij",
+        "forceSave": "Zapisz siłowo",
         "save": "Zapisz",
-        "conflict": "Konflikty"
+        "conflict": "Konflikty",
+        "upload-success": "Przesyłanie pliku powiodło się",
+        "upload-err": "Przesyłanie pliku nie powiodło się, sprawdź zawartość pliku."
     }
 }

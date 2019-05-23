@@ -34,23 +34,19 @@ Upload page styles
 }
 
 .col-md-3 {
-    max-width: 15%;
-    display: flex;
+    max-width: 13%;
 }
 
 .col-md-2 {
     max-width: 10%;
-    display: flex;
 }
 
 .col-md-1 {
-    max-width: 10%;
-    display: flex;
+    max-width: 12%;
 }
 
 .col-md-5 {
     max-width: 60%;
-    display: flex;
 }
 
 .row {
