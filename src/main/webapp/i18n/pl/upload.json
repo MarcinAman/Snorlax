@@ -3,6 +3,8 @@
         "title": "Prześlij plik z pulami",
         "drop": "Upuść plik tutaj, albo",
         "name": "Nazwa pliku",
-        "upload": "Prześlij"
+        "upload": "Prześlij",
+        "upload-success": "Przesyłanie pliku powiodło się",
+        "upload-err": "Przesyłanie pliku nie powiodło się, sprawdź zawartość pliku."
     }
 }

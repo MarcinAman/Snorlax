@@ -7,8 +7,8 @@ import java.io.InputStream;
 
 public interface FileParser {
 
-    List<Pool> read (InputStream file, List<String> poolIdInDatabase);
+    List<Pool> read (InputStream file);
 
-    Boolean verify (InputStream file, List<String> poolIdInDatabase);
+    Boolean verify (InputStream file);
 
 }

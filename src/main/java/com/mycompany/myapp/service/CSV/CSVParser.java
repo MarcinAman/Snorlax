@@ -7,9 +7,8 @@ import com.mycompany.myapp.domain.Pool;
 import com.mycompany.myapp.service.pool.FileParser;
 import com.mycompany.myapp.domain.Tool;
 
-import io.vavr.Tuple;
+import com.mycompany.myapp.service.reservation.ReservationService;
 import io.vavr.collection.List;
-import io.vavr.collection.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -19,6 +18,12 @@ import java.io.*;
 @Component
 public class CSVParser implements FileParser {
     private static final Logger logger = LoggerFactory.getLogger(CSVParser.class);
+
+    private static ReservationService reservationService;
+
+    public CSVParser(ReservationService reservationService) {
+        CSVParser.reservationService = reservationService;
+    }
 
     private static List<ParsingContainerDTO> loadObjectList(InputStream file) {
         try {
@@ -61,17 +66,13 @@ public class CSVParser implements FileParser {
             });
     }
 
-    private static Boolean verify(List<ParsingContainerDTO> parsedObjs, List<String> poolIdInDatabase) {
-        Map<String, ParsingContainerDTO> objects =
-            parsedObjs.toLinkedMap(parsingContainerDTO -> Tuple.of(parsingContainerDTO.getPoolId(),
-                parsingContainerDTO));
-        return poolIdInDatabase
-            .forAll(poolId -> !objects.containsKey(poolId));
+    private static Boolean verify(List<ParsingContainerDTO> parsedObjs) {
+        return parsedObjs.forAll(object -> object.getMaximumCount() >= reservationService.getActiveOrInFutureReservedCount(object.getPoolId()));
     }
 
-    public List<Pool> read(InputStream file, List<String> poolIdInDatabase) {
+    public List<Pool> read(InputStream file) {
         List<ParsingContainerDTO> objects = loadObjectList(file);
-        if (verify(objects, poolIdInDatabase)) {
+        if (verify(objects)) {
             return objects.map(obj -> {
                 Pool pool = obj.toEmptyPool();
                 pool.setTools(toolsForPool(obj, pool).toJavaList());
@@ -82,9 +83,9 @@ public class CSVParser implements FileParser {
     }
 
     @Override
-    public Boolean verify(InputStream file, List<String> poolIdInDatabase) {
+    public Boolean verify(InputStream file) {
         List<ParsingContainerDTO> objects = loadObjectList(file);
-        if (verify(objects, poolIdInDatabase)) {
+        if (verify(objects)) {
             return Boolean.TRUE;
         }
         return Boolean.FALSE;

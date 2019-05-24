@@ -28,12 +28,10 @@ public class PoolService {
     }
 
     public void loadFile(MultipartFile file) throws IOException{
-        io.vavr.collection.List<String> currentlyReserved = poolRepository.getAllPoolId();
-        poolRepository.saveAll(fileParser.read(file.getInputStream(), currentlyReserved));
+        poolRepository.saveAll(fileParser.read(file.getInputStream()));
     }
 
     public Boolean verify(MultipartFile file) throws IOException{
-        io.vavr.collection.List<String> currentlyReserved = poolRepository.getAllPoolId();
-        return fileParser.verify(file.getInputStream(), currentlyReserved);
+        return fileParser.verify(file.getInputStream());
     }
 }
