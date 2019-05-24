@@ -3,6 +3,8 @@
         "title": "Upload file with pools",
         "drop": "Drop file here or",
         "name": "Name",
-        "upload": "Upload"
+        "upload": "Upload",
+        "upload-success": "Upload successful",
+        "upload-err": "Upload not successful, please verify file."
     }
 }

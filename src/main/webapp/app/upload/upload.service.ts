@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
+import { JhiAlertService, JhiAlertType } from 'ng-jhipster';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UploadService {
-    constructor(private httpClient: HttpClient) {}
+    alerts: any[];
+
+    constructor(private httpClient: HttpClient, private alertService: JhiAlertService) {
+        this.alerts = alertService.get();
+    }
 
     public upload(data) {
         const uploadURL = `${SERVER_API_URL}/api/pool/upload`;
@@ -29,5 +34,16 @@ export class UploadService {
                     }
                 })
             );
+    }
+
+    public addAlert(type: JhiAlertType, msg: string) {
+        this.alertService.addAlert(
+            {
+                type: type,
+                msg: msg,
+                timeout: 5000
+            },
+            this.alerts
+        );
     }
 }

@@ -26,20 +26,25 @@ export class UploadComponent {
         formData.append('file', this.file);
         this.uploadService.upload(formData).subscribe(
             async res => {
-                console.log(res);
                 if (res.status === 'success') {
                     try {
+                        this.uploadService.addAlert('success', 'upload.upload-success');
                         await this.router.navigate(['/pool/list']);
                     } catch (e) {
                         this.error = e;
                     }
                 }
-                if (typeof res !== 'string') {
+                if (res.status === 'progress') {
                     return (this.uploadResponse = res);
                 }
             },
             err => {
-                return (this.error = err.message);
+                this.clearField();
+                if (err.status === 406) {
+                    this.uploadService.addAlert('danger', 'upload.upload-err');
+                } else {
+                    this.error = err.message;
+                }
             }
         );
     }
