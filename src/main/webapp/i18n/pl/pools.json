@@ -7,8 +7,12 @@
                 "size": "Rozmiar",
                 "enabled": "Włączone",
                 "tools": "Narzędzia",
-                "book": "Zarezerwuj"
-            }
+                "book": "Zarezerwuj",
+                "filter": "Filtruj",
+                "min": "Min",
+                "max": "Max"
+            },
+            "minmax-err": "Wartość minimalna musi być mniejsza od maksymalnej"
         },
         "booking": {
             "title": "Zarezerwuj pulę",
