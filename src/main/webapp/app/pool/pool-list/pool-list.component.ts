@@ -13,6 +13,8 @@ export class PoolListComponent implements OnInit {
     constructor(private poolService: PoolListService) {}
 
     ngOnInit() {
-        this.poolService.getPools().subscribe(pools => (this.pools = pools));
+        this.poolService.getPools().subscribe(pools => {
+            this.pools = pools.body;
+        });
     }
 }

@@ -10,9 +10,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PoolRepository  extends JpaRepository<Pool, String> {
 
-    @Query(value="select t from Pool t join fetch t.reservations where t.poolId = :poolId")
+    @Query(value="select DISTINCT t from Pool t left join fetch t.reservations where t.poolId = :poolId")
     public Pool getFullByIdWithReservation(@Param("poolId") String poolId);
 
     @Query(value="select t.poolId from Pool t")
     public List<String> getAllPoolId();
+
+    Pool getByPoolId(String poolId);
 }

@@ -2,6 +2,7 @@ package com.mycompany.myapp.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 @Table(name = "reservation")
@@ -28,13 +29,46 @@ public class Reservation {
     @Column(unique = false, nullable = false)
     private int count;
 
-    public Reservation(@NotNull User user, @NotNull Pool pool, @NotNull int count) {
+    @Column(name = "DATE_FROM")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date from;
+
+    @Column(name = "DATE_TO")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date to;
+
+
+    public Reservation(
+        @NotNull User user,
+        @NotNull Pool pool,
+        @NotNull int count,
+        @NotNull Date from,
+        @NotNull Date to
+    ) {
         this.user = user;
         this.pool = pool;
         this.count = count;
+        this.from = from;
+        this.to = to;
     }
 
     public Reservation() {
+    }
+
+    public Date getFrom() {
+        return from;
+    }
+
+    public void setFrom(Date from) {
+        this.from = from;
+    }
+
+    public Date getTo() {
+        return to;
+    }
+
+    public void setTo(Date to) {
+        this.to = to;
     }
 
     public Long getId() {

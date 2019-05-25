@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Pool } from 'app/pool/pool';
-import { POOLS_MOCK } from 'app/pool/pools.mock';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { SERVER_API_URL } from 'app/app.constants';
 @Injectable({
     providedIn: 'root'
 })
 export class PoolListService {
-    poolsMock: Pool[];
+    constructor(private http: HttpClient) {}
 
-    constructor() {
-        this.poolsMock = POOLS_MOCK;
-    }
-
-    getPools(): Observable<Pool[]> {
-        return of(this.poolsMock);
+    getPools(): Observable<HttpResponse<Pool[]>> {
+        return this.http.get<Pool[]>(SERVER_API_URL + 'api/pool/list', { observe: 'response' });
     }
 }
