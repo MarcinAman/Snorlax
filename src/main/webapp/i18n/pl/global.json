@@ -54,6 +54,10 @@
                     "link": "zalogować",
                     "suffix": ", możesz spróbować któregoś z domyślnych kont:<br/>- Administrator (login=\"admin\" i hasło=\"admin\") <br/>- Użytkownik (login=\"user\" i hasło=\"user\")."
                 },
+                "login": {
+                    "click": "Jeśli masz już konto, kliknij tutaj aby się ",
+                    "link": "zalogować"
+                },
                 "register": {
                     "noaccount": "Nie masz jeszcze konta?",
                     "link": "Zarejestruj się"
