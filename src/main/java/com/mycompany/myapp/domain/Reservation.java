@@ -16,7 +16,7 @@ public class Reservation {
     private Long id;
 
     @NotNull
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
 

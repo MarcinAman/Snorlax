@@ -2,8 +2,10 @@ package com.mycompany.myapp.service.reservation;
 
 import com.mycompany.myapp.domain.Pool;
 import com.mycompany.myapp.domain.Reservation;
+import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.PoolRepository;
 import com.mycompany.myapp.repository.ReservationRepository;
+import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.service.MailService;
 import com.mycompany.myapp.service.UserService;
 import org.springframework.stereotype.Service;
@@ -17,13 +19,16 @@ public class ReservationService {
 
     private final PoolRepository poolRepository;
 
+    private final UserRepository userRepository;
+
     private UserService userService;
 
     private MailService mailService;
 
-    public ReservationService(ReservationRepository reservationRepository, PoolRepository poolRepository, UserService userService, MailService mailService){
+    public ReservationService(ReservationRepository reservationRepository, PoolRepository poolRepository, UserRepository userRepository, UserService userService, MailService mailService){
         this.poolRepository = poolRepository;
         this.reservationRepository = reservationRepository;
+        this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
     }
@@ -54,6 +59,11 @@ public class ReservationService {
             return new ArrayList<>();
         }
         return pool.getReservations();
+    }
+
+    public List<Reservation> getAllByUserId(Long userId) {
+        User user = userRepository.getFullByIdWithReservation(userId);
+        return user.getReservations();
     }
 
     public void sendToolsRequest(String poolId, List<String> selectedTools) throws Exception{
