@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { LoginService } from 'app/core/login/login.service';
-import { StateStorageService } from 'app/core/auth/state-storage.service';
+import { LocalStateStorageService } from 'app/core/auth/local-state-storage.service';
 
 @Component({
     selector: 'jhi-login',
     templateUrl: './login.component.html'
 })
-export class LoginComponent implements AfterViewInit {
+export class LoginComponent implements AfterViewInit, OnInit {
     authenticationError: boolean;
     password: string;
     rememberMe: boolean;
@@ -19,12 +19,17 @@ export class LoginComponent implements AfterViewInit {
     constructor(
         private eventManager: JhiEventManager,
         private loginService: LoginService,
-        private stateStorageService: StateStorageService,
+        private localStateStorageService: LocalStateStorageService,
         private elementRef: ElementRef,
         private renderer: Renderer,
         private router: Router
     ) {
         this.credentials = {};
+    }
+
+    ngOnInit() {
+        this.username = this.localStateStorageService.getUsername();
+        this.rememberMe = this.localStateStorageService.getRememberMe();
     }
 
     ngAfterViewInit(): void {
@@ -40,6 +45,15 @@ export class LoginComponent implements AfterViewInit {
             })
             .then(() => {
                 this.authenticationError = false;
+
+                if (this.rememberMe) {
+                    this.localStateStorageService.storeUsername(this.username);
+                    this.localStateStorageService.storeRememberMe(String(this.rememberMe));
+                } else {
+                    this.localStateStorageService.storeUsername(null);
+                    this.localStateStorageService.storeRememberMe(String(this.rememberMe));
+                }
+
                 if (this.router.url === '/register' || /^\/activate\//.test(this.router.url) || /^\/reset\//.test(this.router.url)) {
                     this.router.navigate(['']);
                 }
