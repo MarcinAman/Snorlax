@@ -20,6 +20,7 @@ import {
     JhiConfigurationComponent,
     JhiDocsComponent
 } from './';
+import { VmStatisticsComponent } from 'app/admin/statistics/vm-statistics.component';
 
 @NgModule({
     imports: [
@@ -39,7 +40,8 @@ import {
         JhiHealthModalComponent,
         JhiDocsComponent,
         JhiMetricsMonitoringComponent,
-        JhiMetricsMonitoringModalComponent
+        JhiMetricsMonitoringModalComponent,
+        VmStatisticsComponent
     ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     entryComponents: [UserMgmtDeleteDialogComponent, JhiHealthModalComponent, JhiMetricsMonitoringModalComponent],

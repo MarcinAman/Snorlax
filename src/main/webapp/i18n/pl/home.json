@@ -1,7 +1,7 @@
 {
     "home": {
-        "title": "Witamy, Java Hipsterze!",
-        "subtitle": "To jest twoja strona domowa",
+        "title": "Witaj w Snorlaxie!",
+        "subtitle": "Najlepszym systemie do zarządzania terminalami PCoIP.",
         "logged": {
             "message": "Jesteś zalogowany jako użytkownik \"{{username}}\"."
         },
@@ -13,7 +13,7 @@
             "chat": "Publiczny chat room JHipster",
             "follow": "skontaktuj się z @java_hipster na Twitterze"
         },
-        "like": "Jeśli lubisz JHipster, nie zapomnij dać nam gwiazdki na",
+        "like": "Jeśli lubisz Snorlaxa, nie zapomnij dać nam gwiazdki na",
         "github": "GitHubie"
     }
 }

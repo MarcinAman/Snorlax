@@ -92,6 +92,12 @@
                             <span jhiTranslate="global.menu.admin.logs">Logs</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="admin/statistics" routerLinkActive="active" (click)="collapseNavbar()">
+                            <fa-icon icon="tasks" fixedWidth="true"></fa-icon>
+                            <span>Statistics</span>
+                        </a>
+                    </li>
                     <li *ngIf="swaggerEnabled">
                         <a class="dropdown-item" routerLink="admin/docs" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon icon="book" fixedWidth="true"></fa-icon>

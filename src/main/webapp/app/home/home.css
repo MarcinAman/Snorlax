@@ -5,7 +5,7 @@ Main page styles
 .hipster {
     display: inline-block;
     width: 347px;
-    height: 497px;
+    height: 100%;
     background: url('../../content/images/snorlax.png') no-repeat center top;
     background-size: contain;
 }
