@@ -4,16 +4,17 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.mycompany.myapp.domain.Pool;
-import com.mycompany.myapp.service.pool.FileParser;
 import com.mycompany.myapp.domain.Tool;
-
+import com.mycompany.myapp.service.pool.FileParser;
 import com.mycompany.myapp.service.reservation.ReservationService;
 import io.vavr.collection.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 @Component
 public class CSVParser implements FileParser {
@@ -55,7 +56,7 @@ public class CSVParser implements FileParser {
                     String version = tool.substring(tool.indexOf("(") + 1, tool.indexOf(")"));
                     newTool.setVersion(version);
                     String description = tool.substring(0, tool.indexOf("(") - 1)
-                        + tool.substring(tool.indexOf("(") + 1, tool.length() - 1);
+                        + tool.substring(Math.min(tool.indexOf(")") + 1, tool.length() - 1), tool.length() - 1);
                     newTool.setName(description);
                 } else {
                     newTool.setVersion("");
@@ -72,19 +73,33 @@ public class CSVParser implements FileParser {
 
     public List<Pool> read(InputStream file) {
         List<ParsingContainerDTO> objects = loadObjectList(file);
-        if (verify(objects)) {
-            return objects.map(obj -> {
-                Pool pool = obj.toEmptyPool();
-                pool.setTools(toolsForPool(obj, pool).toJavaList());
-                return pool;
-            });
-        }
-        return List.empty();
+        return objects.map(obj -> {
+            Pool pool = obj.toEmptyPool();
+            pool.setTools(toolsForPool(obj, pool).toJavaList());
+            return pool;
+        });
     }
 
     @Override
     public Boolean verify(InputStream file) {
         List<ParsingContainerDTO> objects = loadObjectList(file);
+        if (verify(objects)) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
+    @Override
+    public Boolean verify(Pool[] pools) {
+        List<ParsingContainerDTO> objects = List.of(pools).map(pool -> {
+            ParsingContainerDTO tmp = new ParsingContainerDTO();
+            tmp.setPoolId(pool.getPoolId());
+            tmp.setMaximumCount(pool.getMaximumCount());
+            tmp.setEnabled(pool.isEnabled());
+            tmp.setDisplayName(pool.getDisplayName());
+            tmp.setDescription(String.valueOf(pool.getTools()));
+            return tmp;
+        });
         if (verify(objects)) {
             return Boolean.TRUE;
         }

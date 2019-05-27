@@ -11,4 +11,5 @@ public interface FileParser {
 
     Boolean verify (InputStream file);
 
+    Boolean verify (Pool[] pools);
 }

@@ -4,6 +4,9 @@
         "drop": "Drop file here or",
         "name": "Name",
         "upload": "Upload",
+        "forceSave": "Force Save",
+        "save": "Save",
+        "conflict": "Conflicts",
         "upload-success": "Upload successful",
         "upload-err": "Upload not successful, please verify file."
     }
