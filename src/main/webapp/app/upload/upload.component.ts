@@ -54,8 +54,8 @@ export class UploadComponent {
         (await oldOnesPromise).body.forEach(pool => this.currentPool.set(pool.poolId, pool));
         (await newOnesPromise).body.forEach(pool => this.newPool.set(pool.poolId, pool));
         this.getConflicts();
-        this.cd.detectChanges();
         this.isCollapsed = false;
+        this.cd.detectChanges();
         this.newConflictPool.forEach((pool, _) => this.choosePattern.set(pool.poolId, this.poolType.New));
     }
 
