@@ -33,6 +33,8 @@
     "languages": [
       "en",
       "pl"
-    ]
+    ],
+    "herokuAppName": "secret-oasis-73287",
+    "herokuDeployType": "jar"
   }
 }
