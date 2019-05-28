@@ -2,12 +2,13 @@ package com.mycompany.myapp.web.rest.reservation;
 
 import com.codahale.metrics.annotation.Timed;
 import com.mycompany.myapp.domain.Reservation;
+import com.mycompany.myapp.service.dto.PeriodicReservationDTO;
 import com.mycompany.myapp.service.dto.ReservationDTO;
+import com.mycompany.myapp.service.reservation.PeriodicReservationService;
 import com.mycompany.myapp.service.reservation.ReservationService;
 import com.mycompany.myapp.web.rest.util.HeaderUtil;
 import com.mycompany.myapp.web.rest.vm.AdditionalToolsVM;
 import io.github.jhipster.web.util.ResponseUtil;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +21,11 @@ import java.util.Optional;
 public class ReservationResource {
 
     ReservationService reservationService;
+    PeriodicReservationService periodicReservationService;
 
-    public ReservationResource(ReservationService reservationService){
+    public ReservationResource(ReservationService reservationService, PeriodicReservationService periodicReservationService){
         this.reservationService = reservationService;
+        this.periodicReservationService = periodicReservationService;
     }
 
     @PostMapping("/reserve")
@@ -32,6 +35,22 @@ public class ReservationResource {
             reservationDTO.getCount(),
             reservationDTO.getFrom(),
             reservationDTO.getTo()
+        );
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createAlert( "reservation.accepted", reservationDTO.getPoolId()))
+            .build();
+    }
+
+    @PostMapping("/reserve-period")
+    public ResponseEntity<Void> reservePeriod(@RequestBody PeriodicReservationDTO reservationDTO) throws Exception{
+        periodicReservationService.reserve(
+            reservationDTO.getPoolId(),
+            reservationDTO.getCount(),
+            reservationDTO.getFromPeriod(),
+            reservationDTO.getToPeriod(),
+            reservationDTO.getFromTime(),
+            reservationDTO.getToTime(),
+            reservationDTO.getLeftOuts()
         );
         return ResponseEntity.ok()
             .headers(HeaderUtil.createAlert( "reservation.accepted", reservationDTO.getPoolId()))

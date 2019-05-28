@@ -28,6 +28,9 @@ public class Pool {
     @OneToMany(mappedBy = "pool")
     private List<Reservation> reservations = new ArrayList<>();
 
+    @OneToMany(mappedBy = "pool")
+    private List<PeriodicReservation> periodicReservations = new ArrayList<>();
+
     @OneToMany(mappedBy = "pool",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Tool> tools = new ArrayList<>();
 
@@ -78,5 +81,13 @@ public class Pool {
 
     public void setTools(List<Tool> tools) {
         this.tools = tools;
+    }
+
+    public List<PeriodicReservation> getPeriodicReservations() {
+        return periodicReservations;
+    }
+
+    public void setPeriodicReservations(List<PeriodicReservation> periodicReservations) {
+        this.periodicReservations = periodicReservations;
     }
 }

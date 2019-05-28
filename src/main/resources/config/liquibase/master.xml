@@ -7,6 +7,7 @@
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190406154200_SNOR-19.sql" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190511182100_SNOR-35.sql" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190527182200_SNOR-42.sql" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
