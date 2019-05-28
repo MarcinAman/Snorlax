@@ -1,0 +1,12 @@
+{
+    "statistics": {
+        "title": "VM statistics",
+        "vmStatistics": "Virtual machines",
+        "vmUserStatistics": "Users",
+        "form": {
+            "dateFrom": "From",
+            "dateTo": "To",
+            "add": "Add"
+        }
+    }
+}

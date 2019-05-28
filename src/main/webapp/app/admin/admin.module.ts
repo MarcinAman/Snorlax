@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { JhiLanguageService } from 'ng-jhipster';
 import { JhiLanguageHelper } from 'app/core';
 import { SnorlaxSharedModule } from 'app/shared';
+import { ChartsModule } from 'ng2-charts';
 /* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
 
 import {
@@ -25,7 +26,8 @@ import { VmStatisticsComponent } from 'app/admin/statistics/vm-statistics.compon
 @NgModule({
     imports: [
         SnorlaxSharedModule,
-        RouterModule.forChild(adminState)
+        RouterModule.forChild(adminState),
+        ChartsModule
         /* jhipster-needle-add-admin-module - JHipster will add admin modules here */
     ],
     declarations: [

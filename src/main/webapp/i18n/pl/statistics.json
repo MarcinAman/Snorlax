@@ -1,0 +1,12 @@
+{
+    "statistics": {
+        "title": "Statystki maszyn wirualnych",
+        "vmStatistics": "Maszyny wirtualne",
+        "vmUserStatistics": "Użytkownicy",
+        "form": {
+            "dateFrom": "Od",
+            "dateTo": "Do",
+            "add": "Dodaj"
+        }
+    }
+}
