@@ -83,10 +83,7 @@ public class CSVParser implements FileParser {
     @Override
     public Boolean verify(InputStream file) {
         List<ParsingContainerDTO> objects = loadObjectList(file);
-        if (verify(objects)) {
-            return Boolean.TRUE;
-        }
-        return Boolean.FALSE;
+        return verify(objects);
     }
 
     @Override
@@ -100,9 +97,6 @@ public class CSVParser implements FileParser {
             tmp.setDescription(String.valueOf(pool.getTools()));
             return tmp;
         });
-        if (verify(objects)) {
-            return Boolean.TRUE;
-        }
-        return Boolean.FALSE;
+        return verify(objects);
     }
 }

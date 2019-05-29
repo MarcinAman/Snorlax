@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { Pool } from 'app/pool/pool';
@@ -48,24 +48,23 @@ export class UploadService {
     public save(data) {
         const uploadURL = `${SERVER_API_URL}/api/pool/save`;
         return this.httpClient
-            .post<any>(uploadURL, data, {
+            .post<JSON>(uploadURL, data, {
+                headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
                 reportProgress: true,
-                observe: 'events'
+                observe: 'events',
+                responseType: 'json'
             })
             .pipe(
                 map(event => {
-                    switch (event.type) {
-                        case HttpEventType.UploadProgress:
-                            const progress = Math.round((100 * event.loaded) / event.total);
-                            return {status: 'progress', message: progress};
-                        case HttpEventType.Response:
-                            return {...event.body, status: 'success'};
-                        default:
-                            return `Unhandled event: ${event.type}`;
+                    if (event.type === HttpEventType.Sent) {
+                        return { status: 'success' };
+                    } else {
+                        return { status: 'unhandled event' };
                     }
                 })
             );
     }
+
     public addAlert(type: JhiAlertType, msg: string) {
         this.alertService.addAlert(
             {

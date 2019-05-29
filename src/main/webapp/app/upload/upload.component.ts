@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FileSystemFileEntry, UploadEvent, UploadFile } from 'ngx-file-drop';
 import { UploadService } from './upload.service';
@@ -13,8 +13,7 @@ enum PoolType {
 @Component({
     selector: 'jhi-home',
     templateUrl: './upload.component.html',
-    styleUrls: ['upload.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['upload.css']
 })
 export class UploadComponent {
     error: string;
@@ -37,7 +36,7 @@ export class UploadComponent {
         private uploadService: UploadService,
         private router: Router,
         private poolService: PoolListService,
-        private cd: ChangeDetectorRef
+        private changeDetectorRef: ChangeDetectorRef
     ) {}
 
     async onSubmit() {
@@ -51,12 +50,22 @@ export class UploadComponent {
         const oldOnesPromise = this.poolService.getPools().toPromise();
         const newOnesPromise = this.uploadService.parse(formData).toPromise();
 
-        (await oldOnesPromise).body.forEach(pool => this.currentPool.set(pool.poolId, pool));
-        (await newOnesPromise).body.forEach(pool => this.newPool.set(pool.poolId, pool));
+        try {
+            (await oldOnesPromise).body.forEach(pool => this.currentPool.set(pool.poolId, pool));
+            (await newOnesPromise).body.forEach(pool => this.newPool.set(pool.poolId, pool));
+        } catch (err) {
+            this.clearField();
+            if (err.status === 406) {
+                this.uploadService.addAlert('danger', 'upload.upload-json-err');
+            } else {
+                return (this.error = err.message);
+            }
+            this.isCollapsed = true;
+        }
         this.getConflicts();
         this.isCollapsed = false;
-        this.cd.detectChanges();
         this.newConflictPool.forEach((pool, _) => this.choosePattern.set(pool.poolId, this.poolType.New));
+        this.changeDetectorRef.detectChanges();
     }
 
     onSave() {
@@ -69,27 +78,21 @@ export class UploadComponent {
             }
             this.merged.push(item);
         });
-
-        const formData = new FormData();
-        formData.append('pools', JSON.stringify(this.merged));
-        this.uploadService.save(formData).subscribe(
+        this.uploadService.save(JSON.stringify(this.merged)).subscribe(
             async res => {
                 if (res.status === 'success') {
                     try {
-                        this.uploadService.addAlert('success', 'upload.upload-success');
+                        this.uploadService.addAlert('success', 'upload.upload-json-success');
                         await this.router.navigate(['/pool/list']);
                     } catch (e) {
                         this.error = e;
                     }
                 }
-                if (res.status === 'progress') {
-                    return (this.uploadResponse = res);
-                }
             },
             err => {
                 this.clearField();
                 if (err.status === 406) {
-                    this.uploadService.addAlert('danger', 'upload.upload-err');
+                    this.uploadService.addAlert('danger', 'upload.upload-json-err');
                 } else {
                     this.error = err.message;
                 }

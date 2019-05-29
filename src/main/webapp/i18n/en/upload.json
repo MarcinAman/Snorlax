@@ -8,6 +8,9 @@
         "save": "Save",
         "conflict": "Conflicts",
         "upload-success": "Upload successful",
-        "upload-err": "Upload not successful, please verify file."
+        "upload-json-success": "Save successful.",
+        "upload-err": "Upload not successful, please verify file.",
+        "upload-json-err": "Save not successful.",
+        "fetch-err": "Failed to acquire pools"
     }
 }

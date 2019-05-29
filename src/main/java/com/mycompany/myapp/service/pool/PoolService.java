@@ -24,13 +24,12 @@ public class PoolService {
         return poolRepository.findAll();
     }
 
-
     public Pool getPoolById(String poolId) {
         return poolRepository.getByPoolId(poolId);
     }
 
     public void loadFile(MultipartFile file) throws IOException {
-        save(fileParser.read(file.getInputStream()).toJavaList());
+        save(parse(file));
     }
 
     public Boolean verify(MultipartFile file) throws IOException{
@@ -41,7 +40,7 @@ public class PoolService {
         return fileParser.verify(pools);
     }
 
-    public java.util.List<Pool> parse(MultipartFile file) throws IOException {
+    public List<Pool> parse(MultipartFile file) throws IOException {
         return fileParser.read(file.getInputStream()).toJavaList();
     }
 
