@@ -1,0 +1,92 @@
+<div class="row">
+    <h1 class="col-md-12" jhiTranslate="statistics.title"></h1>
+</div>
+
+<h2 class="col-md-12" jhiTranslate="statistics.vmStatistics"></h2>
+
+<div class="row">
+    <div class="form-group col-6">
+        <label for="vmStatisticsDateFrom" jhiTranslate="statistics.form.dateFrom"></label>
+        <input
+            type="date"
+            class="form-control"
+            id="vmStatisticsDateFrom"
+            [ngModel] ="vmStatisticsDate.from | date:'yyyy-MM-dd'"
+            (ngModelChange)="vmStatisticsDate.from = $event">
+    </div>
+
+    <div class="form-group col-5">
+        <label for="vmStatisticsDateTo" jhiTranslate="statistics.form.dateTo"></label>
+        <input
+            type="date"
+            class="form-control"
+            id="vmStatisticsDateTo"
+            [ngModel] ="vmStatisticsDate.to | date:'yyyy-MM-dd'"
+            (ngModelChange)="vmStatisticsDate.to = $event">
+    </div>
+    <button
+        class="submit btn btn-primary col-1"
+        (click)="addVmStatisticsChart()"
+        jhiTranslate="statistics.form.add">
+    </button>
+</div>
+
+<div *ngFor="let chart of vmStatisticsCharts; let i = index" class="col-12">
+    <button class="btn btn-outline-secondary" type="button" (click)="deleteVmChart(i)">
+        <fa-icon icon="trash-alt"></fa-icon>
+    </button>
+    <a>{{chart.dateFrom | date : "dd/MM/y"}} - {{chart.dateTo| date : "dd/MM/y"}}</a>
+    <div class="row ">
+        <canvas baseChart
+                [datasets]="chart.data"
+                [labels]="chart.labels"
+                [options]="chart.options"
+                [chartType]="chart.type"
+                [legend]="false">
+        </canvas>
+    </div>
+</div>
+
+
+<h2 class="col-md-12" jhiTranslate="statistics.vmUserStatistics"></h2>
+
+<div class="row">
+    <div class="form-group col-6">
+        <label for="vmUserStatisticsDateFrom" jhiTranslate="statistics.form.dateFrom"></label>
+        <input type="date"
+               class="form-control"
+               id="vmUserStatisticsDateFrom"
+               [ngModel] ="vmUserStatisticsDate.from | date:'yyyy-MM-dd'"
+               (ngModelChange)="vmUserStatisticsDate.from = $event">
+    </div>
+
+    <div class="form-group col-5">
+        <label for="vmUserStatisticsDateTo" jhiTranslate="statistics.form.dateTo"></label>
+        <input type="date"
+               class="form-control"
+               id="vmUserStatisticsDateTo"
+               [ngModel] ="vmUserStatisticsDate.to | date:'yyyy-MM-dd'"
+               (ngModelChange)="vmUserStatisticsDate.to = $event">
+    </div>
+    <button
+        class="submit btn btn-primary col-1"
+        (click)="addVmUserStatisticsChart()"
+        jhiTranslate="statistics.form.add">
+    </button>
+</div>
+
+<div *ngFor="let chart of vmUserStatisticsCharts; let i = index" class="col-12">
+    <button class="btn btn-outline-secondary" type="button" (click)="deleteVmUserChart(i)">
+        <fa-icon icon="trash-alt"></fa-icon>
+    </button>
+    <a>{{chart.dateFrom | date : "dd/MM/y"}} - {{chart.dateTo| date : "dd/MM/y"}}</a>
+    <div class="row ">
+        <canvas baseChart
+                [datasets]="chart.data"
+                [labels]="chart.labels"
+                [options]="chart.options"
+                [chartType]="chart.type"
+                [legend]="false">
+        </canvas>
+    </div>
+</div>

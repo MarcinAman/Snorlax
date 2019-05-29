@@ -29,11 +29,11 @@ public class Reservation {
     @Column(unique = false, nullable = false)
     private int count;
 
-    @Column(name = "from", columnDefinition="DATETIME")
+    @Column(name = "DATE_FROM")
     @Temporal(TemporalType.TIMESTAMP)
     private Date from;
 
-    @Column(name = "to", columnDefinition="DATETIME")
+    @Column(name = "DATE_TO")
     @Temporal(TemporalType.TIMESTAMP)
     private Date to;
 
