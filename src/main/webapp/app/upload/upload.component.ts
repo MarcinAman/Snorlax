@@ -57,9 +57,8 @@ export class UploadComponent {
             this.clearField();
             if (err.status === 406) {
                 this.uploadService.addAlert('danger', 'upload.upload-json-err');
-            } else {
-                return (this.error = err.message);
             }
+            return (this.error = err.message);
             this.isCollapsed = true;
         }
         this.getConflicts();

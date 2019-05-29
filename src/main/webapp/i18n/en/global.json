@@ -29,6 +29,7 @@
                 "configuration": "Configuration",
                 "logs": "Logs",
                 "audits": "Audits",
+                "statistics": "Statistics",
                 "apidocs": "API",
                 "database": "Database",
                 "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
@@ -53,6 +54,10 @@
                     "prefix": "If you want to ",
                     "link": "sign in",
                     "suffix": ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
+                },
+                "login": {
+                    "click": "If you have an account, click here to ",
+                    "link": "sign in"
                 },
                 "register": {
                     "noaccount": "You don't have an account yet?",

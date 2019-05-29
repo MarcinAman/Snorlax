@@ -19,6 +19,7 @@ import { SnorlaxUploadModule } from './upload';
 import { SnorlaxAccountModule } from './account/account.module';
 import { SnorlaxEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
+import { ChartsModule } from 'ng2-charts';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent } from './layouts';
 import { PoolModule } from 'app/pool/pool.module';
@@ -40,6 +41,7 @@ import { PoolModule } from 'app/pool/pool.module';
         SnorlaxHomeModule,
         SnorlaxAccountModule,
         SnorlaxUploadModule,
+        ChartsModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         SnorlaxEntityModule,
         PoolModule
