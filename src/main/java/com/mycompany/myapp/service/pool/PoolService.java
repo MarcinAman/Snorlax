@@ -2,10 +2,12 @@ package com.mycompany.myapp.service.pool;
 
 import com.mycompany.myapp.domain.Pool;
 import com.mycompany.myapp.repository.PoolRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class PoolService {
@@ -19,8 +21,12 @@ public class PoolService {
         this.fileParser = fileParser;
     }
 
-    public java.util.List<Pool> getAllPools(){
+    public List<Pool> getAllPools(){
         return poolRepository.findAll();
+    }
+
+    public List<Pool> getFilteredPools(Specification<Pool> specification) {
+        return poolRepository.findAll(specification);
     }
 
     public Pool getPoolById(String poolId) {
