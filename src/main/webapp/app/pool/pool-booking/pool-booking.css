@@ -1,0 +1,26 @@
+/* ==========================================================================
+Pool booking page styles
+========================================================================== */
+.center {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.book-btn {
+    width: 10rem;
+}
+
+.radio-button {
+    width: 100%;
+    margin: 1rem 0;
+}
+
+span {
+    text-align: center;
+}
+
+.tab-pane-inside {
+    padding: 1rem 0;
+    text-align: center;
+}

@@ -6,13 +6,14 @@ import { Tool } from 'app/pool/tool';
 import { AdditionalTools } from 'app/pool/additional-tools';
 import { PoolBookingComponent } from 'app/pool/pool-booking/pool-booking.component';
 import { JhiAlertService } from 'ng-jhipster';
+import moment = require('moment');
 
 @Injectable({
     providedIn: 'root'
 })
 export class PoolBookingService {
-    private apiURL = SERVER_API_URL;
     alerts: any[];
+    private apiURL = SERVER_API_URL;
 
     constructor(private http: HttpClient, private alertService: JhiAlertService) {
         this.alerts = this.alertService.get();
@@ -47,6 +48,42 @@ export class PoolBookingService {
             count: poolBookingComponent.count + '',
             from: poolBookingComponent.from.toISOString(),
             to: poolBookingComponent.to.toISOString()
+        });
+    }
+
+    bookWeekly(poolBookingComponent: PoolBookingComponent): Observable<HttpResponse<void>> {
+        const { reservationPoolId, count, fromPeriod, fromTime, toPeriod, toTime, excludedDates } = poolBookingComponent;
+
+        if (isNaN(fromPeriod.getTime())) {
+            this.alertService.addAlert(
+                {
+                    type: 'danger',
+                    msg: 'pools.booking.to-err'
+                },
+                this.alerts
+            );
+        }
+        if (isNaN(toPeriod.getTime())) {
+            this.alertService.addAlert(
+                {
+                    type: 'danger',
+                    msg: 'pools.booking.from-err'
+                },
+                this.alerts
+            );
+        }
+        return this.http.post<HttpResponse<void>>(this.apiURL + '/api/reserve-period', {
+            poolId: reservationPoolId,
+            count: count + '',
+            fromTime: moment(fromPeriod)
+                .add(fromTime)
+                .toISOString(),
+            toTime: moment(fromPeriod)
+                .add(toTime)
+                .toISOString(),
+            toPeriod: toPeriod.toISOString(),
+            fromPeriod: fromPeriod.toISOString(),
+            leftOuts: excludedDates.map(date => moment(date).toISOString())
         });
     }
 

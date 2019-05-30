@@ -12,20 +12,10 @@
     <div>
         <label jhiTranslate="pools.booking.fields.count">Count</label>
         <input type="number" class="form-control" name="count"
-            [(ngModel)]="count" min="1">
+               [(ngModel)]="count" min="1">
         <small *ngIf="count<1" jhiTranslate="pools.booking.minvalue" class="form-text text-danger">
             Value should be greater than 0
         </small>
-    </div>
-    <div>
-        <label jhiTranslate="pools.booking.fields.from">From</label>
-        <input type="datetime-local" class="form-control" name="from"
-               [(ngModel)]="from"><br />
-    </div>
-    <div>
-        <label jhiTranslate="pools.booking.fields.to">To</label>
-        <input type="datetime-local" class="form-control" name="to"
-               [(ngModel)]="to"><br />
     </div>
     <br>
     <div class="form-group">
@@ -42,8 +32,145 @@
         </ng-select>
     </div>
     <br>
-    <div>
-        <button class="btn btn-primary float-right" (click)="book()">
+    <ngb-tabset type="pills" justify="fill" activeId="once" (tabChange)="setActiveTab($event)">
+        <ngb-tab title="Once" id="once">
+            <ng-template ngbTabContent>
+                <div class="row tab-pane-inside">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12" jhiTranslate="pools.booking.fields.from">From</div>
+                            <div class="col-md-6 center">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input class="form-control" placeholder="yyyy-mm-dd"
+                                                   name="dp" [(ngModel)]="fromPeriod" [minDate]="today"
+                                                   ngbDatepicker #from="ngbDatepicker">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary calendar"
+                                                        (click)="from.toggle()"
+                                                        type="button"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-6 center">
+                                <ngb-timepicker [(ngModel)]="fromTime"></ngb-timepicker>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12" jhiTranslate="pools.booking.fields.to">To</div>
+                            <div class="col-md-6 center">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input class="form-control" placeholder="yyyy-mm-dd"
+                                                   name="dp" [(ngModel)]="toPeriod" [minDate]="today"
+                                                   ngbDatepicker #to="ngbDatepicker">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary calendar" (click)="to.toggle()"
+                                                        type="button"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-6 center">
+                                <ngb-timepicker [(ngModel)]="toTime"></ngb-timepicker>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Weekly" id="weekly">
+            <ng-template ngbTabContent>
+                <div class="row tab-pane-inside">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span>Starting date</span>
+                                <form class="form-inline center">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input class="form-control" placeholder="yyyy-mm-dd"
+                                                   name="dp" [(ngModel)]="fromPeriod" [minDate]="today"
+                                                   ngbDatepicker #from="ngbDatepicker"
+                                                   (ngModelChange)="handelDateChange($event)">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary calendar"
+                                                        (click)="from.toggle()"
+                                                        type="button"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <span>End date</span>
+                                <form class="form-inline center">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                                                   [(ngModel)]="toPeriod" [minDate]="today"
+                                                   ngbDatepicker #to="ngbDatepicker"
+                                                   (ngModelChange)="handelDateChange($event)">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary calendar"
+                                                        (click)="to.toggle()"
+                                                        type="button"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <label>Weeks</label>
+                                    <input type="number" class="form-control" name="weeks"
+                                           [(ngModel)]="weeks" min="1" (ngModelChange)="handelWeekChange($event)">
+                                    <small *ngIf="weeks<0" jhiTranslate="pools.booking.minvalue"
+                                           class="form-text text-danger">
+                                        Value should be greater than 0
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12"><b>Time range</b></div>
+                            <div class="col-md-6 center">
+                                <ngb-timepicker [(ngModel)]="fromTime"></ngb-timepicker>
+                            </div>
+                            <div class="col-md-6 center">
+                                <ngb-timepicker [(ngModel)]="toTime"></ngb-timepicker>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="pools.booking.fields.tools">Exluded dates</label>
+                    <ng-select
+                        [items]="possibleDates"
+                        [multiple]="true"
+                        [closeOnSelect]="false"
+                        [hideSelected]="true"
+                        [searchable]="true"
+                        bindLabel="name"
+                        placeholder="Dates to exclude"
+                        [(ngModel)]="excludedDates">
+                    </ng-select>
+                </div>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+    <br>
+    <div class="center">
+        <button class="btn btn-primary" (click)="book()">
             <span jhiTranslate="pools.list.headers.book">
                 Book
             </span>
