@@ -6,6 +6,7 @@ import { of } from 'rxjs/internal/observable/of';
 import { Tool } from 'app/pool/tool';
 import { AdditionalTools } from 'app/pool/additional-tools';
 import { Moment } from 'moment';
+import * as moment from 'moment';
 import {
     NgbCalendar,
     NgbDateAdapter,
@@ -14,7 +15,6 @@ import {
     NgbTabChangeEvent,
     NgbTimeStruct
 } from '@ng-bootstrap/ng-bootstrap';
-import moment = require('moment');
 
 @Component({
     selector: 'jhi-pool-booking',
