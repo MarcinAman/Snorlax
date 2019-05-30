@@ -6,7 +6,7 @@ import { Tool } from 'app/pool/tool';
 import { AdditionalTools } from 'app/pool/additional-tools';
 import { PoolBookingComponent } from 'app/pool/pool-booking/pool-booking.component';
 import { JhiAlertService } from 'ng-jhipster';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Injectable({
     providedIn: 'root'
