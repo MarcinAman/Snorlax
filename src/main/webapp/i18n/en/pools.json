@@ -7,8 +7,12 @@
                 "size": "Size",
                 "enabled": "Enabled",
                 "tools": "Tools",
-                "book": "Book"
-            }
+                "book": "Book",
+                "filter": "Filter",
+                "min": "Min",
+                "max": "Max"
+            },
+            "minmax-err": "Minimal value should be lesser than maximum value"
         },
         "booking": {
             "title": "Book a pool",

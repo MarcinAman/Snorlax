@@ -13,8 +13,36 @@
                 <th class="col-md-1"><p jhiTranslate="pools.list.headers.book">Book</p></th>
             </tr>
             </thead>
-
+            <jhi-alert></jhi-alert>
+            <jhi-alert-error></jhi-alert-error>
             <tbody>
+            <tr class="row">
+                <td class="col-md-3"><input type="text" placeholder="{{'pools.list.headers.name' | translate }}"
+                                            [(ngModel)]="displayName"></td>
+                <td class="col-md-1"><input type="number" style="width: 100%" placeholder="{{'pools.list.headers.min' | translate }}"
+                                            min="0" [(ngModel)]="minimum"></td>
+                <td class="col-md-1"><input type="number" style="width: 100%" placeholder="{{'pools.list.headers.max' | translate }}"
+                                            min="1" [(ngModel)]="maximum"></td>
+                <td class="col-md-1"><input type="checkbox"
+                                            [(ngModel)]="enabled"></td>
+                <td class="col-md-5">
+                    <ng-select
+                        [items]="tools | async"
+                        [multiple]="true"
+                        [closeOnSelect]="false"
+                        [hideSelected]="true"
+                        [searchable]="true"
+                        bindLabel="name"
+                        placeholder="{{'pools.list.headers.tools' | translate }}"
+                        [(ngModel)]="selectedTools">
+                    </ng-select></td>
+                <td class="col-md-1">
+                    <button class="btn btn-primary" (click)="getFilteredPools()" >
+                        <fa-icon [icon]="'filter'"></fa-icon>
+                        <span jhiTranslate="pools.list.headers.filter">Filter</span>
+                    </button>
+                </td>
+            </tr>
             <tr class="row" *ngFor="let pool of pools">
                 <td class="col-md-3">{{pool.displayName}}</td>
                 <td class="col-md-2">{{pool.maximumCount}}</td>

@@ -22,4 +22,8 @@ public class ToolService {
     public List<Tool> getAdditionalTools(String poolId){
         return toolRepository.getAllByPoolIsNotIn(poolService.getPoolById(poolId));
     }
+
+    public List<Tool> getAllTools(){
+        return toolRepository.findAll();
+    }
 }
