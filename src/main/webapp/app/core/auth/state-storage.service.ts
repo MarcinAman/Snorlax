@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { SessionStorageService } from 'ngx-webstorage';
+import { SessionStorageService, LocalStorageService } from 'ngx-webstorage';
 
 @Injectable({ providedIn: 'root' })
 export class StateStorageService {
-    constructor(private $sessionStorage: SessionStorageService) {}
+    constructor(private $sessionStorage: SessionStorageService, private $localStorage: LocalStorageService) {}
 
     getPreviousState() {
         return this.$sessionStorage.retrieve('previousState');
@@ -42,5 +42,21 @@ export class StateStorageService {
             }
         };
         this.$sessionStorage.store('destinationState', destinationInfo);
+    }
+
+    storeRememberMe(rememberMe: string) {
+        this.$localStorage.store('RememberMe', rememberMe);
+    }
+
+    getRememberMe() {
+        return this.$localStorage.retrieve('RememberMe');
+    }
+
+    storeUsername(username: string) {
+        this.$localStorage.store('username', username);
+    }
+
+    getUsername() {
+        return this.$localStorage.retrieve('username');
     }
 }
