@@ -33,8 +33,8 @@ export class VmStatisticsComponent implements OnInit {
             const data = v.map(x => x.timesUsed);
             const labels = v.map(x => x.displayName);
             this.vmStatisticsCharts.push({
-                dateFrom: this.vmUserStatisticsDate.from,
-                dateTo: this.vmUserStatisticsDate.to,
+                dateFrom: this.vmStatisticsDate.from,
+                dateTo: this.vmStatisticsDate.to,
                 data: [{ data: data }],
                 options: { responsive: true },
                 type: 'bar',
@@ -44,7 +44,7 @@ export class VmStatisticsComponent implements OnInit {
     }
 
     addVmUserStatisticsChart() {
-        this.service.getVmUserStatistics(this.vmStatisticsDate.from, this.vmStatisticsDate.to).subscribe(v => {
+        this.service.getVmUserStatistics(this.vmUserStatisticsDate.from, this.vmUserStatisticsDate.to).subscribe(v => {
             const data = v.map(x => x.timesUsed);
             const labels = v.map(x => x.username);
             this.vmUserStatisticsCharts.push({
