@@ -9,6 +9,8 @@ import com.mycompany.myapp.repository.PoolRepository;
 import com.mycompany.myapp.repository.ReservationLeftOutRepository;
 import com.mycompany.myapp.repository.ReservationRepository;
 import com.mycompany.myapp.service.UserService;
+import com.mycompany.myapp.web.rest.errors.PoolDisabledException;
+import com.mycompany.myapp.web.rest.errors.PoolFullException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,8 +46,11 @@ public class PeriodicReservationService {
 
     @Transactional
     public PeriodicReservation reserve(String poolId, int count, LocalDate fromPeriod, LocalDate toPeriod,
-                                       LocalDateTime fromTime, LocalDateTime toTime, List<LocalDate> leftOuts) throws Exception {
+                                       LocalDateTime fromTime, LocalDateTime toTime, List<LocalDate> leftOuts) {
         Pool pool = poolRepository.getFullByIdWithPeriodicReservation(poolId);
+        if (!pool.isEnabled()) {
+            throw new PoolDisabledException();
+        }
         PeriodicReservation pr = new PeriodicReservation(userService.getUserWithAuthorities().get(),
             pool, count, fromPeriod, toPeriod, fromTime, toTime);
 
@@ -54,11 +59,11 @@ public class PeriodicReservationService {
             .collect(Collectors.toList()));
         int periodCount = getPeriodicReservedCount(pool.getPeriodicReservations(), fromTime, toTime, fromPeriod, toPeriod);
         int basicCount = getBasicReservedCount(pool.getReservations(), fromTime, toTime, fromPeriod, toPeriod);
-        if (pool.isEnabled() && count <= pool.getMaximumCount() - periodCount - basicCount) {
+        if (count <= pool.getMaximumCount() - periodCount - basicCount) {
             return periodicReservationRepository.save(pr);
         }
         else {
-            throw new Exception("Unable to reserve");
+            throw new PoolFullException();
         }
 
     }

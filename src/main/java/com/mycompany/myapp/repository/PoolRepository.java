@@ -19,5 +19,8 @@ public interface PoolRepository  extends JpaRepository<Pool, String> {
     @Query(value="select t.poolId from Pool t")
     public List<String> getAllPoolId();
 
+    @Query(value="select DISTINCT t from Pool t left join fetch t.tools")
+    java.util.List<Pool> getAllPoolsWithTools();
+
     Pool getByPoolId(String poolId);
 }

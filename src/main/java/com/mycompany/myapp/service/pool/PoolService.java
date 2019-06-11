@@ -20,7 +20,7 @@ public class PoolService {
     }
 
     public java.util.List<Pool> getAllPools(){
-        return poolRepository.findAll();
+        return poolRepository.getAllPoolsWithTools();
     }
 
     public Pool getPoolById(String poolId) {
