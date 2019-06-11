@@ -1,5 +1,6 @@
 {
     "pools": {
+        "pools": "Pools",
         "list": {
             "title": "PCoIP pools",
             "headers": {
@@ -15,7 +16,10 @@
             "fields": {
                 "id": "ID",
                 "count": "Count",
-                "tools": "Additional tools",
+                "tools": {
+                    "label": "Additional tools",
+                    "placeholder": "Select tools"
+                },
                 "from": "From",
                 "weekly": {
                     "tabName": "Weekly",
@@ -23,7 +27,10 @@
                     "endDate": "End date",
                     "weeks": "Weeks",
                     "timeRange": "Time range",
-                    "excludedDates": "Excluded dates"
+                    "excludedDates": {
+                        "label": "Excluded dates",
+                        "placeholder": "Dates to exclude"
+                    }
                 },
                 "once": {
                     "tabName": "Once",

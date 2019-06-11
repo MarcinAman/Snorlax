@@ -5,10 +5,12 @@ import { PoolBookingComponent } from 'app/pool/pool-booking/pool-booking.compone
 export const POOL_ROUTE: Route[] = [
     {
         path: 'pool/list',
-        component: PoolListComponent
+        component: PoolListComponent,
+        data: { pageTitle: 'global.menu.pools' }
     },
     {
         path: 'pool/book/:id',
-        component: PoolBookingComponent
+        component: PoolBookingComponent,
+        data: { pageTitle: 'global.menu.pools' }
     }
 ];
