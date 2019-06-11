@@ -5,12 +5,12 @@
     <jhi-alert></jhi-alert>
     <jhi-alert-error></jhi-alert-error>
     <div class="form-group" [hidden]="!reservationPoolId">
-        <label jhiTranslate="pools.booking.fields.id">ID</label>
+        <label for="id" jhiTranslate="pools.booking.fields.id">ID</label>
         <input type="text" class="form-control" name="id"
                [ngModel]="reservationPoolId" readonly>
     </div>
     <div>
-        <label jhiTranslate="pools.booking.fields.count">Count</label>
+        <label for="count" jhiTranslate="pools.booking.fields.count">Count</label>
         <input type="number" class="form-control" name="count"
                [(ngModel)]="count" min="1">
         <small *ngIf="count<1" jhiTranslate="pools.booking.minvalue" class="form-text text-danger">
@@ -33,12 +33,12 @@
     </div>
     <br>
     <ngb-tabset type="pills" justify="fill" activeId="once" (tabChange)="setActiveTab($event)">
-        <ngb-tab title="Once" id="once">
+        <ngb-tab title="Once" id="once" jhiTranslate="pools.booking.fields.once.tabName">
             <ng-template ngbTabContent>
                 <div class="row tab-pane-inside">
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-12" jhiTranslate="pools.booking.fields.from">From</div>
+                            <div class="col-md-12" jhiTranslate="pools.booking.fields.once.from">From</div>
                             <div class="col-md-6 center">
                                 <form class="form-inline">
                                     <div class="form-group">
@@ -62,7 +62,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-12" jhiTranslate="pools.booking.fields.to">To</div>
+                            <div class="col-md-12" jhiTranslate="pools.booking.fields.once.to">To</div>
                             <div class="col-md-6 center">
                                 <form class="form-inline">
                                     <div class="form-group">
@@ -86,20 +86,20 @@
                 </div>
             </ng-template>
         </ngb-tab>
-        <ngb-tab title="Weekly" id="weekly">
+        <ngb-tab title="Weekly" id="weekly" jhiTranslate="pools.booking.fields.once.tabName">
             <ng-template ngbTabContent>
                 <div class="row tab-pane-inside">
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-12">
-                                <span>Starting date</span>
+                                <span jhiTranslate="pools.booking.fields.weekly.startDate">Starting date</span>
                                 <form class="form-inline center">
                                     <div class="form-group">
                                         <div class="input-group">
                                             <input class="form-control" placeholder="yyyy-mm-dd"
                                                    name="dp" [(ngModel)]="fromPeriod" [minDate]="today"
                                                    ngbDatepicker #from="ngbDatepicker"
-                                                   (ngModelChange)="handelDateChange($event)">
+                                                   (ngModelChange)="handelDateChange()">
                                             <div class="input-group-append">
                                                 <button class="btn btn-outline-secondary calendar"
                                                         (click)="from.toggle()"
@@ -110,14 +110,14 @@
                                 </form>
                             </div>
                             <div class="col-md-6">
-                                <span>End date</span>
+                                <span jhiTranslate="pools.booking.fields.weekly.endDate">End date</span>
                                 <form class="form-inline center">
                                     <div class="form-group">
                                         <div class="input-group">
                                             <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
                                                    [(ngModel)]="toPeriod" [minDate]="today"
                                                    ngbDatepicker #to="ngbDatepicker"
-                                                   (ngModelChange)="handelDateChange($event)">
+                                                   (ngModelChange)="handelDateChange()">
                                             <div class="input-group-append">
                                                 <button class="btn btn-outline-secondary calendar"
                                                         (click)="to.toggle()"
@@ -129,7 +129,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div>
-                                    <label>Weeks</label>
+                                    <label for="weeks" jhiTranslate="pools.booking.fields.weekly.weeks">Weeks</label>
                                     <input type="number" class="form-control" name="weeks"
                                            [(ngModel)]="weeks" min="1" (ngModelChange)="handelWeekChange($event)">
                                     <small *ngIf="weeks<0" jhiTranslate="pools.booking.minvalue"
@@ -142,7 +142,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-12"><b>Time range</b></div>
+                            <div class="col-md-12" jhiTranslate="pools.booking.fields.weekly.timeRange"><b>Time range</b></div>
                             <div class="col-md-6 center">
                                 <ngb-timepicker [(ngModel)]="fromTime"></ngb-timepicker>
                             </div>
@@ -153,7 +153,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label jhiTranslate="pools.booking.fields.tools">Exluded dates</label>
+                    <label jhiTranslate="pools.booking.fields.weekly.excludedDates">Excluded dates</label>
                     <ng-select
                         [items]="possibleDates"
                         [multiple]="true"

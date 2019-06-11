@@ -16,8 +16,19 @@
                 "id": "ID",
                 "count": "Ilość",
                 "tools": "Dodatkowe narzędzia",
-                "from": "od",
-                "to": "do"
+                "weekly": {
+                    "tabName": "Tygodniowe",
+                    "startDate": "Początkowa data",
+                    "endDate": "Data końcowa",
+                    "weeks": "Tygodnie",
+                    "timeRange": "Przedział czasowy",
+                    "excludedDates": "Wykluczone daty"
+                },
+                "once": {
+                    "tabName": "Pojedyńcza",
+                    "from": "Od",
+                    "to": "Do"
+                }
             },
             "minvalue": "Wartość musi być większa niż 0",
             "from-err": "Data początkowa niezdefiniowana",

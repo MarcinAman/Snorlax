@@ -17,7 +17,19 @@
                 "count": "Count",
                 "tools": "Additional tools",
                 "from": "From",
-                "to": "To"
+                "weekly": {
+                    "tabName": "Weekly",
+                    "startDate": "Starting date",
+                    "endDate": "End date",
+                    "weeks": "Weeks",
+                    "timeRange": "Time range",
+                    "excludedDates": "Excluded dates"
+                },
+                "once": {
+                    "tabName": "Once",
+                    "from": "From",
+                    "to": "To"
+                }
             },
             "minvalue": "Value should be greater than 0",
             "from-err": "from date not defined",

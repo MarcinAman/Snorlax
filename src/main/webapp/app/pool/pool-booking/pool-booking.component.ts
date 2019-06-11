@@ -78,13 +78,11 @@ export class PoolBookingComponent implements OnInit {
     }
 
     handelWeekChange(weeks) {
-        const difference = weeks - this.previousWeekNumber;
         this.toPeriod = new Date(
-            moment(this.toPeriod)
-                .add(difference * 7, 'd')
+            moment(this.fromPeriod)
+                .add(weeks * 7, 'd')
                 .toISOString()
         );
-        this.previousWeekNumber = weeks;
         this.calculatePossibleDates();
     }
 
@@ -107,19 +105,17 @@ export class PoolBookingComponent implements OnInit {
     }
 
     calculatePossibleDates() {
-        let exludedDate = moment(this.fromPeriod).add(7, 'd');
+        let excludedDate = moment(this.fromPeriod).add(7, 'd');
         const newPossibleDates = [];
         this.excludedDates = [];
-        while (exludedDate.isBefore(moment(this.toPeriod))) {
-            newPossibleDates.push({ name: exludedDate.format('DD-MM-YYYY'), id: newPossibleDates.length });
-            exludedDate = exludedDate.add(7, 'd');
+        while (excludedDate.isBefore(moment(this.toPeriod))) {
+            newPossibleDates.push({ name: excludedDate.format('DD-MM-YYYY'), id: newPossibleDates.length });
+            excludedDate = excludedDate.add(7, 'd');
         }
         this.possibleDates = newPossibleDates;
-        console.log(this.possibleDates);
     }
 
     setActiveTab(tabChangeEvent: NgbTabChangeEvent) {
-        console.log(tabChangeEvent);
         this.activeTab = tabChangeEvent.nextId;
     }
 
