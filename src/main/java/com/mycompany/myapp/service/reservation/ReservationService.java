@@ -8,8 +8,7 @@ import com.mycompany.myapp.service.MailService;
 import com.mycompany.myapp.service.UserService;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ReservationService {
@@ -51,6 +50,9 @@ public class ReservationService {
 
     public List<Reservation> getAllByPoolId(String poolId) {
         Pool pool = poolRepository.getFullByIdWithReservation(poolId);
+        if (pool == null) {
+            return new ArrayList<>();
+        }
         return pool.getReservations();
     }
 
@@ -58,8 +60,17 @@ public class ReservationService {
         mailService.sendToolsRequestEmail(userService.getUserWithAuthorities().get(), poolId, selectedTools);
     }
 
-    private int getAlreadyReservedCount(List<Reservation> reservation) {
-        return reservation.stream().map(r -> r.getCount()).reduce((r1, r2) -> r1 + r2).orElse(0);
+    public int getActiveOrInFutureReservedCount(String poolId) {
+        return getActiveOrInFutureReservedCount(getAllByPoolId(poolId), new Date());
+    }
+
+    private int getActiveOrInFutureReservedCount(List<Reservation> reservation, Date now) {
+        return reservation
+            .stream()
+            .filter(r -> isActiveOrInFuture(r, now))
+            .map(Reservation::getCount)
+            .reduce(Integer::sum)
+            .orElse(0);
     }
 
     private int getAlreadyReservedCount(List<Reservation> reservation, Date from, Date to) {
@@ -73,6 +84,10 @@ public class ReservationService {
 
     private boolean isOverlaping(Reservation reservation, Date from, Date to) {
         return !(reservation.getFrom().compareTo(to) >= 0  || reservation.getTo().compareTo(from) < 0 );
+    }
+
+    private boolean isActiveOrInFuture(Reservation reservation, Date now) {
+        return reservation.getTo().compareTo(now) >=0;
     }
 
 }

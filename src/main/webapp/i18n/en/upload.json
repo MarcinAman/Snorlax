@@ -3,6 +3,14 @@
         "title": "Upload file with pools",
         "drop": "Drop file here or",
         "name": "Name",
-        "upload": "Upload"
+        "upload": "Upload",
+        "forceSave": "Force Save",
+        "save": "Save",
+        "conflict": "Conflicts",
+        "upload-success": "Upload successful",
+        "upload-json-success": "Save successful.",
+        "upload-err": "Upload not successful, please verify file.",
+        "upload-json-err": "Save not successful.",
+        "fetch-err": "Failed to acquire pools"
     }
 }
