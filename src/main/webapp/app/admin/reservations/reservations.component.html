@@ -1,0 +1,29 @@
+<div class="row">
+    <h1 jhiTranslate="reservations.title"></h1>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover table-sm">
+            <thead>
+            <tr class="row">
+                <th class="col-md-5"><p jhiTranslate="reservations.list.headers.name"></p></th>
+                <th class="col-md-1"><p jhiTranslate="reservations.list.headers.size"></p></th>
+                <th class="col-md-2"><p jhiTranslate="reservations.list.headers.from"></p></th>
+                <th class="col-md-2"><p jhiTranslate="reservations.list.headers.to"></p></th>
+                <th class="col-md-2"><p jhiTranslate="reservations.list.headers.user"></p></th>
+            </tr>
+            </thead>
+<!--            <jhi-alert></jhi-alert>-->
+<!--            <jhi-alert-error></jhi-alert-error>-->
+            <tbody>
+            <tr class="row" *ngFor="let reservation of reservations">
+                <td class="col-md-5">{{reservation.pool.displayName}}</td>
+                <td class="col-md-1">{{reservation.count}}</td>
+                <td class="col-md-2">{{reservation.from}}</td>
+                <td class="col-md-2">{{reservation.to}}</td>
+                <td class="col-md-2">{{reservation.user.login}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

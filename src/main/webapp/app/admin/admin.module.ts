@@ -22,6 +22,7 @@ import {
     JhiDocsComponent
 } from './';
 import { VmStatisticsComponent } from 'app/admin/statistics/vm-statistics.component';
+import { ReservationsComponent } from './reservations/reservations.component';
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import { VmStatisticsComponent } from 'app/admin/statistics/vm-statistics.compon
         JhiDocsComponent,
         JhiMetricsMonitoringComponent,
         JhiMetricsMonitoringModalComponent,
-        VmStatisticsComponent
+        VmStatisticsComponent,
+        ReservationsComponent
     ],
     providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     entryComponents: [UserMgmtDeleteDialogComponent, JhiHealthModalComponent, JhiMetricsMonitoringModalComponent],

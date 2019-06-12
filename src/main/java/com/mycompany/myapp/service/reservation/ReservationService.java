@@ -64,6 +64,10 @@ public class ReservationService {
         return getActiveOrInFutureReservedCount(getAllByPoolId(poolId), new Date());
     }
 
+    public List<Reservation> findAll(){
+        return reservationRepository.findAll();
+    }
+
     private int getActiveOrInFutureReservedCount(List<Reservation> reservation, Date now) {
         return reservation
             .stream()
