@@ -57,4 +57,12 @@ public class ReservationResource {
         reservationService.sendToolsRequest(additionalToolsVM.getPoolId(), additionalToolsVM.getSelectedTools());
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/reservation-all")
+    @Timed
+    public ResponseEntity<List<Reservation>> findAll() throws Exception {
+        return ResponseUtil.wrapOrNotFound(Optional.of(reservationService.findAll()));
+    }
+
+
 }

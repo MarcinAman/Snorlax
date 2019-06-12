@@ -4,8 +4,19 @@ import { auditsRoute, configurationRoute, docsRoute, healthRoute, logsRoute, met
 
 import { UserRouteAccessService } from 'app/core';
 import { vmRoute } from 'app/admin/statistics/vm-statistics.route';
+import { reservationRoute } from 'app/admin/reservations/reservation.route';
 
-const ADMIN_ROUTES = [auditsRoute, configurationRoute, docsRoute, healthRoute, logsRoute, ...userMgmtRoute, metricsRoute, vmRoute];
+const ADMIN_ROUTES = [
+    auditsRoute,
+    configurationRoute,
+    docsRoute,
+    healthRoute,
+    logsRoute,
+    ...userMgmtRoute,
+    metricsRoute,
+    vmRoute,
+    reservationRoute
+];
 
 export const adminState: Routes = [
     {

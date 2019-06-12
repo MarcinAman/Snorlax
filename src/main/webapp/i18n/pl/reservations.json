@@ -1,0 +1,14 @@
+{
+    "reservations": {
+        "title": "Rezerwacje",
+        "list": {
+            "headers": {
+                "name": "Nazwa puli",
+                "size": "Ilość",
+                "from": "Od",
+                "to": "Do",
+                "user": "Użytkownik"
+            }
+        }
+    }
+}
