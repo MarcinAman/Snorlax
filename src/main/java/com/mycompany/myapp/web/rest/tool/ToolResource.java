@@ -25,4 +25,10 @@ public class ToolResource {
     public ResponseEntity<List<Tool>> getAdditionalTools(@PathVariable(value = "poolId") String poolId){
         return ResponseUtil.wrapOrNotFound(Optional.of(toolService.getAdditionalTools(poolId)));
     }
+
+    @GetMapping("/tool/list")
+    @Timed
+    public ResponseEntity<List<Tool>> getAllTools() {
+        return ResponseUtil.wrapOrNotFound(Optional.of(toolService.getAllTools()));
+    }
 }

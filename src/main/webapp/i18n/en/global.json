@@ -30,6 +30,7 @@
                 "logs": "Logs",
                 "audits": "Audits",
                 "statistics": "Statistics",
+                "reservations": "Reservations",
                 "apidocs": "API",
                 "database": "Database",
                 "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"

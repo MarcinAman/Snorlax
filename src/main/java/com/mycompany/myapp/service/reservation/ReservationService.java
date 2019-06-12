@@ -2,14 +2,15 @@ package com.mycompany.myapp.service.reservation;
 
 import com.mycompany.myapp.domain.Pool;
 import com.mycompany.myapp.domain.Reservation;
+import com.mycompany.myapp.domain.User;
 import com.mycompany.myapp.repository.PoolRepository;
 import com.mycompany.myapp.repository.ReservationRepository;
+import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.service.MailService;
 import com.mycompany.myapp.service.UserService;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ReservationService {
@@ -18,13 +19,16 @@ public class ReservationService {
 
     private final PoolRepository poolRepository;
 
+    private final UserRepository userRepository;
+
     private UserService userService;
 
     private MailService mailService;
 
-    public ReservationService(ReservationRepository reservationRepository, PoolRepository poolRepository, UserService userService, MailService mailService){
+    public ReservationService(ReservationRepository reservationRepository, PoolRepository poolRepository, UserRepository userRepository, UserService userService, MailService mailService){
         this.poolRepository = poolRepository;
         this.reservationRepository = reservationRepository;
+        this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
     }
@@ -51,15 +55,36 @@ public class ReservationService {
 
     public List<Reservation> getAllByPoolId(String poolId) {
         Pool pool = poolRepository.getFullByIdWithReservation(poolId);
+        if (pool == null) {
+            return new ArrayList<>();
+        }
         return pool.getReservations();
+    }
+
+    public List<Reservation> getAllByUserId(Long userId) {
+        User user = userRepository.getFullByIdWithReservation(userId);
+        return user.getReservations();
     }
 
     public void sendToolsRequest(String poolId, List<String> selectedTools) throws Exception{
         mailService.sendToolsRequestEmail(userService.getUserWithAuthorities().get(), poolId, selectedTools);
     }
 
-    private int getAlreadyReservedCount(List<Reservation> reservation) {
-        return reservation.stream().map(r -> r.getCount()).reduce((r1, r2) -> r1 + r2).orElse(0);
+    public int getActiveOrInFutureReservedCount(String poolId) {
+        return getActiveOrInFutureReservedCount(getAllByPoolId(poolId), new Date());
+    }
+
+    public List<Reservation> findAll(){
+        return reservationRepository.findAll();
+    }
+
+    private int getActiveOrInFutureReservedCount(List<Reservation> reservation, Date now) {
+        return reservation
+            .stream()
+            .filter(r -> isActiveOrInFuture(r, now))
+            .map(Reservation::getCount)
+            .reduce(Integer::sum)
+            .orElse(0);
     }
 
     private int getAlreadyReservedCount(List<Reservation> reservation, Date from, Date to) {
@@ -73,6 +98,10 @@ public class ReservationService {
 
     private boolean isOverlaping(Reservation reservation, Date from, Date to) {
         return !(reservation.getFrom().compareTo(to) >= 0  || reservation.getTo().compareTo(from) < 0 );
+    }
+
+    private boolean isActiveOrInFuture(Reservation reservation, Date now) {
+        return reservation.getTo().compareTo(now) >=0;
     }
 
 }

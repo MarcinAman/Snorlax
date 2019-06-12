@@ -9,7 +9,7 @@ import { StateStorageService } from 'app/core/auth/state-storage.service';
     selector: 'jhi-login',
     templateUrl: './login.component.html'
 })
-export class LoginComponent implements AfterViewInit {
+export class LoginComponent implements AfterViewInit, OnInit {
     authenticationError: boolean;
     password: string;
     rememberMe: boolean;
@@ -27,6 +27,11 @@ export class LoginComponent implements AfterViewInit {
         this.credentials = {};
     }
 
+    ngOnInit() {
+        this.username = this.stateStorageService.getUsername();
+        this.rememberMe = this.stateStorageService.getRememberMe();
+    }
+
     ngAfterViewInit(): void {
         setTimeout(() => this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#username'), 'focus', []), 0);
     }
@@ -40,6 +45,15 @@ export class LoginComponent implements AfterViewInit {
             })
             .then(() => {
                 this.authenticationError = false;
+
+                if (this.rememberMe) {
+                    this.stateStorageService.storeUsername(this.username);
+                    this.stateStorageService.storeRememberMe(String(this.rememberMe));
+                } else {
+                    this.stateStorageService.storeUsername(null);
+                    this.stateStorageService.storeRememberMe(String(this.rememberMe));
+                }
+
                 if (this.router.url === '/register' || /^\/activate\//.test(this.router.url) || /^\/reset\//.test(this.router.url)) {
                     this.router.navigate(['']);
                 }

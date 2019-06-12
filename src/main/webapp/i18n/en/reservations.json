@@ -1,0 +1,14 @@
+{
+    "reservations": {
+        "title": "Reservations",
+        "list": {
+            "headers": {
+                "name": "Pool name",
+                "size": "Count",
+                "from": "From",
+                "to": "To",
+                "user": "User"
+            }
+        }
+    }
+}

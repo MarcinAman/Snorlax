@@ -3,6 +3,14 @@
         "title": "Prześlij plik z pulami",
         "drop": "Upuść plik tutaj, albo",
         "name": "Nazwa pliku",
-        "upload": "Prześlij"
+        "upload": "Prześlij",
+        "forceSave": "Zapisz siłowo",
+        "save": "Zapisz",
+        "conflict": "Konflikty",
+        "upload-success": "Przesyłanie pliku powiodło się",
+        "upload-json-success": "Zapisywanie powiodło się.",
+        "upload-err": "Przesyłanie pliku nie powiodło się, sprawdź zawartość pliku.",
+        "upload-json-err": "Zapisywanie nie powiodło się.",
+        "fetch-err": "Nie udało się pobrać pul"
     }
 }
