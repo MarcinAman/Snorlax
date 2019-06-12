@@ -43,12 +43,14 @@ export class PoolBookingService {
             );
         }
 
-        return this.http.post<HttpResponse<void>>(this.apiURL + '/api/reserve', {
-            poolId: poolBookingComponent.reservationPoolId,
-            count: poolBookingComponent.count + '',
-            from: poolBookingComponent.from.toISOString(),
-            to: poolBookingComponent.to.toISOString()
-        });
+        return this.http.post<HttpResponse<void>>(this.apiURL + '/api/reserve', [
+            {
+                poolId: poolBookingComponent.reservationPoolId,
+                count: poolBookingComponent.count + '',
+                from: poolBookingComponent.from.toISOString(),
+                to: poolBookingComponent.to.toISOString()
+            }
+        ]);
     }
 
     bookWeekly(poolBookingComponent: PoolBookingComponent): Observable<HttpResponse<void>> {
@@ -72,19 +74,21 @@ export class PoolBookingService {
                 this.alerts
             );
         }
-        return this.http.post<HttpResponse<void>>(this.apiURL + '/api/reserve-period', {
-            poolId: reservationPoolId,
-            count: count + '',
-            fromTime: moment(fromPeriod)
-                .add(fromTime)
-                .toISOString(),
-            toTime: moment(fromPeriod)
-                .add(toTime)
-                .toISOString(),
-            toPeriod: toPeriod.toISOString(),
-            fromPeriod: fromPeriod.toISOString(),
-            leftOuts: excludedDates.map(date => moment(date).toISOString())
-        });
+        return this.http.post<HttpResponse<void>>(this.apiURL + '/api/reserve-period', [
+            {
+                poolId: reservationPoolId,
+                count: count + '',
+                fromTime: moment(fromPeriod)
+                    .add(fromTime)
+                    .toISOString(),
+                toTime: moment(fromPeriod)
+                    .add(toTime)
+                    .toISOString(),
+                toPeriod: toPeriod.toISOString(),
+                fromPeriod: fromPeriod.toISOString(),
+                leftOuts: excludedDates.map(date => moment(date).toISOString())
+            }
+        ]);
     }
 
     sendToolsRequest(additionalTools: AdditionalTools): Observable<HttpResponse<void>> {
