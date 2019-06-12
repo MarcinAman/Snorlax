@@ -2,8 +2,13 @@
     "upload": {
         "title": "Prześlij plik z pulami",
         "drop": "Upuść plik tutaj, albo",
+        "browseButton": "Przeglądaj pliki",
         "name": "Nazwa pliku",
         "upload": "Prześlij",
+        "radioButton": {
+            "new": "Nowy",
+            "current": "Obecny"
+        },
         "forceSave": "Zapisz siłowo",
         "save": "Zapisz",
         "conflict": "Konflikty",

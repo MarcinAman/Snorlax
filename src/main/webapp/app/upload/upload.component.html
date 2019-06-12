@@ -5,10 +5,11 @@
         <jhi-alert-error></jhi-alert-error>
         <div class="file-drop">
             <file-drop (onFileDrop)="dropped($event)"
-                       contentClassName=""
-                       dropZoneClassName=""
+                       [showBrowseBtn]="true"
                        accept="csv"
-                       [showBrowseBtn]="true">
+                       browseBtnLabel="{{'upload.browseButton' | translate}}"
+                       contentClassName=""
+                       dropZoneClassName="">
                 <div class="drop-text" jhiTranslate="upload.drop">Drop file here or</div>
             </file-drop>
         </div>
@@ -26,90 +27,91 @@
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-primary" (click)="onSubmit()"
-                type="submit" jhiTranslate="upload.upload">
+        <button (click)="onSubmit()" class="btn btn-primary"
+                jhiTranslate="upload.upload" type="submit">
             Upload
         </button>
         <button (click)="onForceSave()" class="btn btn-primary"
                 jhiTranslate="upload.forceSave" type="submit">
             Force Save
         </button>
-        <div [ngbCollapse]="isCollapsed" id="pop-table">
-            <h1 class="col-md-12" jhiTranslate="upload.conflict">Conflicts</h1>
-            <div class="table_list">
-                <table class="table_side_by_side">
-                    <thead>
-                    <tr class="row">
-                        <th class="col-md-3"><p jhiTranslate="pools.list.headers.name">Name</p></th>
-                        <th class="col-md-2"><p jhiTranslate="pools.list.headers.size">Size</p></th>
-                        <th class="col-md-1"><p jhiTranslate="pools.list.headers.enabled">On</p></th>
-                        <th class="col-md-5"><p jhiTranslate="pools.list.headers.tools">Tools</p></th>
-                        <th class="col-md-2"></th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr *ngFor="let pool of currentConflictPool" class="row">
-                        <td class="col-md-3">
-                            {{pool.displayName}}
-                        </td>
-                        <td class="col-md-2">{{pool.maximumCount}}</td>
-                        <td class="col-md-1">
-                            <fa-icon *ngIf="pool.enabled" icon="check"></fa-icon>
-                        </td>
-                        <td class="col-md-5">
-                            <div *ngFor="let tool of pool.tools" class="d-inline">
-                                <span>{{tool.name}} ({{tool.version}})</span>
-                            </div>
-                        </td>
-                        <td class="col-md-2">
-                            <label>
-                                <input (click)="choosePattern.set(pool.poolId,poolType.Old)" [checked]="choosePattern.get(pool.poolId) === poolType.Old" [name]="pool.poolId"
-                                       type="radio">
-                            </label>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <table class="table_side_by_side">
-                    <thead>
-                    <tr class="row">
-                        <th class="col-md-2"></th>
-                        <th class="col-md-3"><p jhiTranslate="pools.list.headers.name">Name</p></th>
-                        <th class="col-md-2"><p jhiTranslate="pools.list.headers.size">Size</p></th>
-                        <th class="col-md-1"><p jhiTranslate="pools.list.headers.enabled">On</p></th>
-                        <th class="col-md-5"><p jhiTranslate="pools.list.headers.tools">Tools</p></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let pool of newConflictPool" class="row">
-                        <td class="col-md-2">
-                            <label>
-                                <input (click)="choosePattern.set(pool.poolId,poolType.New)" [checked]="choosePattern.get(pool.poolId) === poolType.New" [name]="pool.poolId"
-                                       type="radio">
-                            </label>
-                        </td>
-                        <td class="col-md-3">
-                            {{pool.displayName}}
-                        </td>
-                        <td class="col-md-2">{{pool.maximumCount}}</td>
-                        <td class="col-md-1">
-                            <fa-icon *ngIf="pool.enabled" icon="check"></fa-icon>
-                        </td>
-                        <td class="col-md-5">
-                            <div *ngFor="let tool of pool.tools" class="d-inline">
-                                <span>{{tool.name}} ({{tool.version}})</span>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+        <div [ngbCollapse]="!conflicts.length" class="pop-table" id="pop-table">
+            <h1 jhiTranslate="upload.conflict">Conflicts</h1>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="col-md-4">Name</div>
+                        <div class="col-md-1">Size</div>
+                        <div class="col-md-1">On</div>
+                        <div class="col-md-6">Tools</div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="col-md-4">Name</div>
+                        <div class="col-md-1">Size</div>
+                        <div class="col-md-1">On</div>
+                        <div class="col-md-6">Tools</div>
+                    </div>
+                </div>
             </div>
-            <button (click)="onSave()" class="btn btn-primary"
-                    jhiTranslate="upload.save" type="save">
-                Save
-            </button>
+            <div class="table_list">
+                <div *ngFor="let conflict of conflicts" class="row">
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                {{conflict.currentPool.displayName}}
+                            </div>
+                            <div class="col-md-1">
+                                {{conflict.currentPool.maximumCount}}
+                            </div>
+                            <div class="col-md-1">
+                                <fa-icon *ngIf="conflict.currentPool.enabled" icon="check"></fa-icon>
+                            </div>
+                            <div class="col-md-6">
+                                <div *ngFor="let tool of conflict.currentPool.tools" class="d-inline">
+                                    <span>{{tool.name}} ({{tool.version}})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div [(ngModel)]="conflict.chosen" class="btn-group btn-group-toggle" name="radioBasic"
+                             ngbRadioGroup>
+                            <label class="btn-primary" ngbButtonLabel>
+                                <input jhiTranslate="upload.radioButton.current" ngbButton type="radio" value="current">
+                                Current
+                            </label>
+                            <label class="btn-primary" ngbButtonLabel>
+                                <input jhiTranslate="upload.radioButton.new" ngbButton type="radio" value="new"> New
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                {{conflict.newPool.displayName}}
+                            </div>
+                            <div class="col-md-1">
+                                {{conflict.newPool.maximumCount}}
+                            </div>
+                            <div class="col-md-1">
+                                <fa-icon *ngIf="conflict.newPool.enabled" icon="check"></fa-icon>
+                            </div>
+                            <div class="col-md-6">
+                                <div *ngFor="let tool of conflict.newPool.tools" class="d-inline">
+                                    <span>{{tool.name}} ({{tool.version}})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <button (click)="onSave()" *ngIf="uploaded" class="btn btn-primary" jhiTranslate="upload.save" type="save">
+            Save
+        </button>
         <div>
             <div *ngIf="error" class="error-message">
                 <span>{{ error || 'Sorry, unknown error occurred.'}}</span>
@@ -118,9 +120,9 @@
                 {{ uploadResponse.message }}
             </div>
             <div *ngIf="uploadResponse.status === 'progress'">
-                <div role="progressbar" [style.width.%]="uploadResponse.message"
-                     aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">
+                <div [style.width.%]="uploadResponse.message" aria-valuemax="100"
+                     aria-valuemin="0" aria-valuenow="25"
+                     role="progressbar">
                     {{uploadResponse.message}}%
                 </div>
             </div>

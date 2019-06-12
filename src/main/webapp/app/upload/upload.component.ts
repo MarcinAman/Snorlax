@@ -1,14 +1,9 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FileSystemFileEntry, UploadEvent, UploadFile } from 'ngx-file-drop';
 import { UploadService } from './upload.service';
 import { Pool } from 'app/pool/pool';
 import { PoolListService } from 'app/pool/pool-list/pool-list.service';
-
-enum PoolType {
-    New,
-    Old
-}
 
 @Component({
     selector: 'jhi-home',
@@ -19,25 +14,18 @@ export class UploadComponent {
     error: string;
     uploadResponse = { status: '', message: '' };
 
-    currentPool: Map<String, Pool> = new Map<String, Pool>();
-    newPool: Map<String, Pool> = new Map<String, Pool>();
+    currentPools: Map<String, Pool> = new Map<String, Pool>();
+    newPools: Map<String, Pool> = new Map<String, Pool>();
 
-    public poolType = PoolType;
-    public isCollapsed = true;
+    uploaded = false;
+
     public files: UploadFile[] = [];
 
-    public currentConflictPool: Pool[] = [];
-    public newConflictPool: Pool[] = [];
     public merged: Pool[] = [];
-    public choosePattern = new Map();
     public file: File;
+    public conflicts = [];
 
-    constructor(
-        private uploadService: UploadService,
-        private router: Router,
-        private poolService: PoolListService,
-        private changeDetectorRef: ChangeDetectorRef
-    ) {}
+    constructor(private uploadService: UploadService, private router: Router, private poolService: PoolListService) {}
 
     async onSubmit() {
         if (!this.file) {
@@ -51,31 +39,24 @@ export class UploadComponent {
         const newOnesPromise = this.uploadService.parse(formData).toPromise();
 
         try {
-            (await oldOnesPromise).body.forEach(pool => this.currentPool.set(pool.poolId, pool));
-            (await newOnesPromise).body.forEach(pool => this.newPool.set(pool.poolId, pool));
+            (await oldOnesPromise).body.forEach(pool => this.currentPools.set(pool.poolId, pool));
+            (await newOnesPromise).body.forEach(pool => this.newPools.set(pool.poolId, pool));
         } catch (err) {
             this.clearField();
             if (err.status === 406) {
                 this.uploadService.addAlert('danger', 'upload.upload-json-err');
             }
+            this.uploaded = false;
             return (this.error = err.message);
-            this.isCollapsed = true;
         }
         this.getConflicts();
-        this.isCollapsed = false;
-        this.newConflictPool.forEach((pool, _) => this.choosePattern.set(pool.poolId, this.poolType.New));
-        this.changeDetectorRef.detectChanges();
+        this.uploaded = true;
     }
 
     onSave() {
-        this.choosePattern.forEach((value, key) => {
-            let item;
-            if (value === this.poolType.New) {
-                item = this.newPool.get(key);
-            } else {
-                item = this.currentPool.get(key);
-            }
-            this.merged.push(item);
+        this.conflicts.forEach(conflict => {
+            const chosen = conflict.chosen === 'new' ? conflict.newPool : conflict.currentPool;
+            this.merged.push(chosen);
         });
         this.uploadService.save(JSON.stringify(this.merged)).subscribe(
             async res => {
@@ -150,17 +131,15 @@ export class UploadComponent {
     }
 
     private getConflicts() {
-        this.newConflictPool = [];
-        this.currentConflictPool = [];
-        this.newPool.forEach((value, key) => {
-            if (this.currentPool.has(key)) {
-                const current = this.currentPool.get(key);
-                if (value.maximumCount !== current.maximumCount) {
-                    this.newConflictPool.push(value);
-                    this.currentConflictPool.push(current);
+        this.conflicts = [];
+        this.newPools.forEach((newPool, key) => {
+            if (this.currentPools.has(key)) {
+                const currentPool = this.currentPools.get(key);
+                if (newPool.maximumCount !== currentPool.maximumCount) {
+                    this.conflicts.push({ newPool, currentPool, chosen: 'new' });
                 }
             } else {
-                this.merged.push(value);
+                this.merged.push(newPool);
             }
         });
     }

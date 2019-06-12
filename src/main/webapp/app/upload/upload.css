@@ -27,24 +27,13 @@ Upload page styles
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
+    margin-bottom: 3rem;
 }
 
-.table_side_by_side {
-    width: 50%;
+.pop-table {
+    margin: 1rem 0;
 }
 
-.col-md-3 {
-    max-width: 13%;
-}
-
-.col-md-2 {
-    max-width: 10%;
-}
-
-.col-md-1 {
-    max-width: 12%;
-}
-
-.col-md-5 {
-    max-width: 60%;
+.tools {
+    max-width: 30rem;
 }

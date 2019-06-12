@@ -40,7 +40,6 @@ export class UploadService {
     public parse(data) {
         const uploadURL = `${SERVER_API_URL}/api/pool/parse`;
         return this.httpClient.post<Pool[]>(uploadURL, data, {
-            reportProgress: true,
             observe: 'response'
         });
     }
@@ -50,7 +49,6 @@ export class UploadService {
         return this.httpClient
             .post<JSON>(uploadURL, data, {
                 headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-                reportProgress: true,
                 observe: 'events',
                 responseType: 'json'
             })

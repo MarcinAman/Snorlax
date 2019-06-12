@@ -2,8 +2,13 @@
     "upload": {
         "title": "Upload file with pools",
         "drop": "Drop file here or",
+        "browseButton": "Browse files",
         "name": "Name",
         "upload": "Upload",
+        "radioButton": {
+            "new": "New",
+            "current": "Current"
+        },
         "forceSave": "Force Save",
         "save": "Save",
         "conflict": "Conflicts",
