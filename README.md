@@ -1,6 +1,8 @@
 # Snorlax
 [![Build Status](https://travis-ci.com/MarcinAman/Snorlax.svg?branch=master)](https://travis-ci.com/MarcinAman/Snorlax)
 
+# NO LONGER MAINTAINED
+
 ### Requirements
 - Java 8
 - npm
